@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "AuraEffectActor.generated.h"
 
+class UGameplayEffect;
 class USphereComponent;
 
 UCLASS()
@@ -21,4 +22,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	void ApplyEffectToTarget(AActor* Target, const TSubclassOf<UGameplayEffect>& GameplayEffectClass) const;
+
+	UPROPERTY(EditAnywhere, Category="Applied Effect")
+	TSubclassOf<UGameplayEffect> InstantGameplayEffect;
 };

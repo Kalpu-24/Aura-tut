@@ -22,8 +22,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	void ApplyEffectToTarget(AActor* Target, const TSubclassOf<UGameplayEffect>& GameplayEffectClass) const;
+	UFUNCTION(BlueprintCallable)
+	void ApplyEffectToTarget(AActor* TargetActor, const TSubclassOf<UGameplayEffect>& GameplayEffectClass);
 
-	UPROPERTY(EditAnywhere, Category="Applied Effect")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
 	TSubclassOf<UGameplayEffect> InstantGameplayEffect;
 };

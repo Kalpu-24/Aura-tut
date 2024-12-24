@@ -27,4 +27,10 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
 	TSubclassOf<UGameplayEffect> InstantGameplayEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
+	TSubclassOf<UGameplayEffect> DurationGameplayEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
+	TSubclassOf<UGameplayEffect> InfiniteGameplayEffect;
 };

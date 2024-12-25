@@ -1,4 +1,4 @@
-// Copyright Kalp Shah
+// Copyright 2025 Kalp Games, All rights reserved.
 
 #pragma once
 
@@ -24,4 +24,5 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void InitAbilityActorInfo() override;
 };

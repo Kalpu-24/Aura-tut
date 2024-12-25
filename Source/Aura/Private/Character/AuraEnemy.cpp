@@ -1,4 +1,4 @@
-// Copyright Kalp Shah
+// Copyright 2025 Kalp Games, All rights reserved.
 
 
 #include "Character/AuraEnemy.h"
@@ -31,5 +31,11 @@ void AAuraEnemy::UnHighlightActor(){
 
 void AAuraEnemy::BeginPlay(){
 	Super::BeginPlay();
+	InitAbilityActorInfo();
+}
+
+void AAuraEnemy::InitAbilityActorInfo()
+{
 	AbilitySystemComponent->InitAbilityActorInfo(this,this);
+	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 }

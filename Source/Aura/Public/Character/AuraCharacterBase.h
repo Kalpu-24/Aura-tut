@@ -1,4 +1,4 @@
-// Copyright Kalp Shah
+// Copyright 2025 Kalp Games, All rights reserved.
 
 #pragma once
 
@@ -30,4 +30,6 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
+
+	virtual void InitAbilityActorInfo(){}
 };

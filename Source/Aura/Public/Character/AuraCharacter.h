@@ -1,4 +1,4 @@
-// Copyright Kalp Shah
+// Copyright 2025 Kalp Games, All rights reserved.
 
 #pragma once
 
@@ -18,5 +18,5 @@ public:
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
 private:
-	void InitAbilityActorInfo();
+	virtual void InitAbilityActorInfo() override;
 };

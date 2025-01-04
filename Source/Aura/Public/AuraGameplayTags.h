@@ -1,6 +1,7 @@
 // Copyright 2025 Kalp Games, All rights reserved.
 
 #pragma once
+
 #include "NativeGameplayTags.h"
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Attributes_Primary_Strength)

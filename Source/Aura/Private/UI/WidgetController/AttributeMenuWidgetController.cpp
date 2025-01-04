@@ -12,11 +12,16 @@ void UAttributeMenuWidgetController::BindLambdasToDependencies()
 
 }
 
+void UAttributeMenuWidgetController::BroadCastAttributeInfo(FAuraAttributeInfo& Info)
+{
+	Info.AttributeValue = Info.Attribute.GetNumericValue(AttributeSet);
+	AttributeInfoDelegate.Broadcast(Info);
+}
+
 void UAttributeMenuWidgetController::BroadCastInitialValues()
 {
-	const UAuraAttributeSet* As = CastChecked<UAuraAttributeSet>(AttributeSet);
-	check(AttributeInfo);
-	FAuraAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(TAG_Attributes_Primary_Strength);
-	Info.AttributeValue = As->GetStrength();
-	AttributeInfoDelegate.Broadcast(Info);
+	for (FAuraAttributeInfo& AttributeInfoItem : AttributeInfo->AttributeInfos)
+	{
+		BroadCastAttributeInfo(AttributeInfoItem);
+	}
 }

@@ -20,7 +20,7 @@ class AURA_API UAttributeMenuWidgetController : public UAuraWidgetController
 public:
 	virtual void BroadCastInitialValues() override;
 	virtual void BindLambdasToDependencies() override;
-	void BroadCastAttributeInfo(FAuraAttributeInfo& Info);
+	void BroadCastAttributeInfo(FAuraAttributeInfo& Info) const;
 
 	UPROPERTY(BlueprintAssignable, Category= "GAS|Attributes")
 	FAttributeInfoSignature AttributeInfoDelegate;

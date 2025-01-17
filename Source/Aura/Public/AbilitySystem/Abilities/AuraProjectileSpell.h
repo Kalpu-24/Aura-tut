@@ -21,4 +21,7 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void SpawnFireBolt(const FVector& ProjectileTargetLocation);
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UGameplayEffect> DamageEffectClass;
 };

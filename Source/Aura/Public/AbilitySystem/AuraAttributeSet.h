@@ -19,16 +19,16 @@ struct FEffectProperties
 	GENERATED_BODY()
  
 	UPROPERTY(Transient)
-	UAbilitySystemComponent* AbilitySystemComponent;
+	UAbilitySystemComponent* AbilitySystemComponent = nullptr;
  
 	UPROPERTY(Transient)
-	AActor* AvatarActor;
+	AActor* AvatarActor = nullptr;
  
 	UPROPERTY(Transient)
-	AController* Controller;
+	AController* Controller = nullptr;
  
 	UPROPERTY(Transient)
-	ACharacter* Character;
+	ACharacter* Character =nullptr;
 };
  
 USTRUCT()

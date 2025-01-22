@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
 #include "CombatInterface.generated.h"
+class UAnimMontage;
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
@@ -27,4 +28,7 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void UpdateRotationMotionWarp(const FVector& TargetRotation);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UAnimMontage* GetHitReactMontage();
 };

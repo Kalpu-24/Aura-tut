@@ -27,3 +27,5 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InputTag_3, "InputTag.3", "Input Tag for 3 Ke
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InputTag_4, "InputTag.4", "Input Tag for 4 Key")
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Damage, "Damage", "Damage tag for set by caller use")
+
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Effect_HitReact, "Effect.HitReact", "Tag for Hit React Effect")

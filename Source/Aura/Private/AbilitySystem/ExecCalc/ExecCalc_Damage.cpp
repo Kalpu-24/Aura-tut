@@ -4,14 +4,15 @@
 #include "AbilitySystem/ExecCalc/ExecCalc_Damage.h"
 
 #include "AbilitySystemComponent.h"
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 
 struct AuraDamageStatics
 {
-	DECLARE_ATTRIBUTE_CAPTUREDEF(Armor);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(BlockRate);
 	AuraDamageStatics()
 	{
-		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, Armor, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, BlockRate, Target, false);
 	}
 };
 
@@ -23,7 +24,7 @@ static  const AuraDamageStatics& DamageStatics()
 
 UExecCalc_Damage::UExecCalc_Damage()
 {
-	RelevantAttributesToCapture.Add(DamageStatics().ArmorDef);
+	RelevantAttributesToCapture.Add(DamageStatics().BlockRateDef);
 }
 
 void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
@@ -43,10 +44,19 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	EvaluateParameters.SourceTags = SourceTags;
 	EvaluateParameters.TargetTags = TargetTags;
 
-	float Armor = 0.f;
-	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorDef, EvaluateParameters, Armor);
-	Armor = FMath::Max<float>(0.f, Armor);
+	// Get Damage Set By Caller Magnitude
+	float Damage = Spec.GetSetByCallerMagnitude(TAG_Damage);
 
-	FGameplayModifierEvaluatedData EvaluatedData = FGameplayModifierEvaluatedData(DamageStatics().ArmorProperty, EGameplayModOp::Additive, Armor);
+	// Capture Block Chance on Target and Determine If There was a successful block
+	// If block , halve the Damage
+	float BlockRate = 0.f;
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockRateDef, EvaluateParameters, BlockRate);
+	BlockRate = FMath::Max<float>(0.f, BlockRate);
+
+	const bool bBlocked = FMath::RandRange(1, 100) < BlockRate;
+	Damage = bBlocked? Damage / 2.f : Damage;
+
+	FGameplayModifierEvaluatedData EvaluatedData = FGameplayModifierEvaluatedData(UAuraAttributeSet::GetIncomingDamageAttribute(),
+		EGameplayModOp::Additive, Damage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
 }

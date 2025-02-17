@@ -66,9 +66,31 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	EvaluateParameters.SourceTags = SourceTags;
 	EvaluateParameters.TargetTags = TargetTags;
 
-	// Get Damage Set By Caller Magnitude
-	float Damage = Spec.GetSetByCallerMagnitude(TAG_Damage);
+	UGameplayTagsManager& TagManager = UGameplayTagsManager::Get();
 
+	// Get all registered gameplay tags
+	FGameplayTagContainer AllTags;
+	TagManager.RequestAllGameplayTags(AllTags, true /* Include descendants */);
+
+	// Filter tags containing "DamageTypes"
+	FGameplayTagContainer DamageTypeTags;
+	const FString SubstringToFind = TEXT("DamageType");
+
+	for (const FGameplayTag& Tag : AllTags) {
+		FString TagString = Tag.ToString();
+		if (TagString.Contains(SubstringToFind)) {
+			DamageTypeTags.AddTag(Tag);
+		}
+	}
+
+	float Damage = 0.f;;
+	// Now use DamageTypeTags as needed
+	for (const FGameplayTag& DamageTag : DamageTypeTags) {
+		// Get Damage Set By Caller Magnitude
+		float DamageTypeValue = Spec.GetSetByCallerMagnitude(DamageTag);
+		Damage += DamageTypeValue;
+	}
+	
 	// Capture Block Chance on Target and Determine If There was a successful block
 	float TargetBlockRate = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockRateDef, EvaluateParameters, TargetBlockRate);

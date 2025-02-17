@@ -196,5 +196,5 @@ public:
 
 private:
 	static void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectPropertiesEnhanced& Props);
-	void ShowFloatingText(const FEffectPropertiesEnhanced& Props, float Damage) const;
+	void ShowFloatingText(const FEffectPropertiesEnhanced& Props, float Damage, bool bIsBlockedHit, bool bIsCriticalHit) const;
 };

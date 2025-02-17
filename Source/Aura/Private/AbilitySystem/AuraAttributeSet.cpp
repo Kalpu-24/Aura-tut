@@ -74,13 +74,13 @@ inline void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallb
 	}
 }
 
-void UAuraAttributeSet::ShowFloatingText(const FEffectPropertiesEnhanced& Props, const float Damage, bool bIsBlockedHit, bool bIsCriticalHit) const
+void UAuraAttributeSet::ShowFloatingText(const FEffectPropertiesEnhanced& Props, const float Damage, const bool bIsBlockedHit, const bool bIsCriticalHit) const
 {
 	if (Props.SourceProperties->Character != Props.TargetProperties->Character)
 	{
 		if (AAuraPlayerController* Pc = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceProperties->Controller, 0)))
 		{
-			Pc->ShowDamageNumber(Damage, Props.TargetProperties->Character);
+			Pc->ShowDamageNumber(Damage, Props.TargetProperties->Character, bIsBlockedHit, bIsCriticalHit);
 		}
 	}
 }

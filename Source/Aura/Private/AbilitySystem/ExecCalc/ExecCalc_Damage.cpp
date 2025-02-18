@@ -101,15 +101,16 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		const FGameplayTag ResistanceTag = Pair.Value;
 
 		checkf(DamageStatics().CaptureDefinitions.Contains(ResistanceTag), TEXT("Resistance Tag %s not found in DamageStatics"), *ResistanceTag.ToString());
-		const FGameplayEffectAttributeCaptureDefinition CaptureDef = DamageStatics().CaptureDefinitions[ResistanceTag];
+		const FGameplayEffectAttributeCaptureDefinition CaptureDef = FAuraDamageStatics().CaptureDefinitions[ResistanceTag];
 
-		Damage += Spec.GetSetByCallerMagnitude(DamageTypeTag);
+		float Damagetype = Spec.GetSetByCallerMagnitude(DamageTypeTag);
 		
 		float Resistance = 0.f;
 		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(CaptureDef, EvaluateParameters, Resistance);
-		Resistance = FMath::Max<float>(0.f, 100.f);
+		Resistance = FMath::Clamp<float>(Resistance,0.f, 100.f);
 
-		Damage *= (100.f - Resistance) / 100.f;
+		Damagetype *= (100.f - Resistance) / 100.f;
+		Damage += Damagetype;
 	}
 	
 	// Capture Block Chance on Target and Determine If There was a successful block

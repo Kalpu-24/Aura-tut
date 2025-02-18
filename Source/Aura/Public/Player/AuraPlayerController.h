@@ -29,7 +29,7 @@ public:
 	virtual void PlayerTick(float DeltaTime) override;
 	FHitResult GetCursorHit(){return CursorHit;}
 
-	UFUNCTION(Client, Reliable)
+	UFUNCTION(Client, Reliable, NetMulticast)
 	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter, bool bIsBlockedHit, bool bIsCriticalHit);
 	
 protected:

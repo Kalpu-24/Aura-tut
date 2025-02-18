@@ -11,7 +11,7 @@
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Interaction/CombatInterface.h"
 
-struct AuraDamageStatics
+struct FAuraDamageStatics
 {
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Armor);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(ArmorPenetration);
@@ -20,7 +20,7 @@ struct AuraDamageStatics
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CritRes);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CritDamage);
 
-	AuraDamageStatics()
+	FAuraDamageStatics()
 	{
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, Armor, Target, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, BlockRate, Target, false);
@@ -31,9 +31,9 @@ struct AuraDamageStatics
 	}
 };
 
-static  const AuraDamageStatics& DamageStatics()
+static  const FAuraDamageStatics& DamageStatics()
 {
-	static AuraDamageStatics DStatics;
+	static FAuraDamageStatics DStatics;
 	return DStatics;
 }
 

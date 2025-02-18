@@ -5,6 +5,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "AuraAbilitySystemTypes.h"
+#include "GameplayTagsManager.h"
 #include "Game/AuraGameModeBase.h"
 #include "HUD/AuraHUD.h"
 #include "Kismet/GameplayStatics.h"
@@ -113,4 +114,22 @@ void UAuraAbilitySystemLibrary::SetIsCriticalHit(FGameplayEffectContextHandle& E
 	{
 		AuraEffectContext->SetIsCritHit(bIsInCriticalHit);
 	}
+}
+
+TMap<FGameplayTag, FGameplayTag> UAuraAbilitySystemLibrary::GetDamageToResistanceTags()
+{
+	TMap<FGameplayTag, FGameplayTag> OutMap;
+	// Get the parent tag 
+	const FGameplayTag DamageTypeParentTag = FGameplayTag::RequestGameplayTag(FName("DamageType"));
+	const FGameplayTag ResistanceTypeParentTag = FGameplayTag::RequestGameplayTag(FName("Attributes.Resistance"));
+    
+	// Get the tag node from the hierarchy
+	TArray<TSharedPtr<FGameplayTagNode>> DamageTypeChildTagNodes = UGameplayTagsManager::Get().FindTagNode(DamageTypeParentTag)->GetChildTagNodes();
+	TArray<TSharedPtr<FGameplayTagNode>> ResistanceTypeChildTagNodes = UGameplayTagsManager::Get().FindTagNode(ResistanceTypeParentTag)->GetChildTagNodes();
+
+	for (int i = 0; i < DamageTypeChildTagNodes.Num(); i++)
+	{
+		OutMap.Add(DamageTypeChildTagNodes[i]->GetCompleteTag(), ResistanceTypeChildTagNodes[i]->GetCompleteTag());
+	}
+	return OutMap;
 }

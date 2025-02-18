@@ -66,28 +66,14 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	EvaluateParameters.SourceTags = SourceTags;
 	EvaluateParameters.TargetTags = TargetTags;
 
-	UGameplayTagsManager& TagManager = UGameplayTagsManager::Get();
-
-	// Get all registered gameplay tags
-	FGameplayTagContainer AllTags;
-	TagManager.RequestAllGameplayTags(AllTags, true /* Include descendants */);
-
-	// Filter tags containing "DamageTypes"
-	FGameplayTagContainer DamageTypeTags;
-	const FString SubstringToFind = TEXT("DamageType");
-
-	for (const FGameplayTag& Tag : AllTags) {
-		FString TagString = Tag.ToString();
-		if (TagString.Contains(SubstringToFind)) {
-			DamageTypeTags.AddTag(Tag);
-		}
-	}
-
-	float Damage = 0.f;;
+	TMap<FGameplayTag, FGameplayTag> DamageToResistanceTags = UAuraAbilitySystemLibrary::GetDamageToResistanceTags();
+	
+	float Damage = 0.f;
 	// Now use DamageTypeTags as needed
-	for (const FGameplayTag& DamageTag : DamageTypeTags) {
+	for (auto Pair : DamageToResistanceTags) {
+		UE_LOG(LogTemp, Error, TEXT("Damage Type Tag: %s"), *Pair.Key.ToString());
 		// Get Damage Set By Caller Magnitude
-		float DamageTypeValue = Spec.GetSetByCallerMagnitude(DamageTag);
+		float DamageTypeValue = Spec.GetSetByCallerMagnitude(Pair.Key);
 		Damage += DamageTypeValue;
 	}
 	

@@ -138,6 +138,23 @@ public:
 	FGameplayAttributeData MaxMana;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxMana);
 
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing= OnRep_FireRes, Category="Secondary Attributes")
+	FGameplayAttributeData FireRes;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, FireRes);
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing= OnRep_ArcaneRes, Category="Secondary Attributes")
+	FGameplayAttributeData ArcaneRes;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ArcaneRes);
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing= OnRep_LightningRes, Category="Secondary Attributes")
+	FGameplayAttributeData LightningRes;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, LightningRes);
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing= OnRep_PhysicalRes, Category="Secondary Attributes")
+	FGameplayAttributeData PhysicalRes;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, PhysicalRes);
+
+
 	UFUNCTION()
 	void OnRep_Armor(const FGameplayAttributeData& OldArmor) const;
 
@@ -167,6 +184,18 @@ public:
 
 	UFUNCTION()
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
+	
+	UFUNCTION()
+	void OnRep_FireRes(const FGameplayAttributeData& OldFireRes) const;
+
+	UFUNCTION()
+	void OnRep_ArcaneRes(const FGameplayAttributeData& OldArcaneRes) const;
+
+	UFUNCTION()
+	void OnRep_LightningRes(const FGameplayAttributeData& OldLightningRes) const;
+
+	UFUNCTION()
+	void OnRep_PhysicalRes(const FGameplayAttributeData& OldPhysicalRes) const;
 	
 	/*
 	 * Vital Attributes

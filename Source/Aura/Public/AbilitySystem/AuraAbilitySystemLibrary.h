@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "Data/CharacterClassInfo.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "AuraAbilitySystemLibrary.generated.h"
@@ -46,4 +47,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|GameplayEffects")
 	static void SetIsCriticalHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bIsInCriticalHit);
+
+	UFUNCTION(BlueprintPure, Category="AuraABilitySystem|GameplayTags")
+	static TMap<FGameplayTag, FGameplayTag> GetDamageToResistanceTags();
 };

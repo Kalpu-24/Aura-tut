@@ -28,5 +28,13 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InputTag_4, "InputTag.4", "Input Tag for 4 Ke
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Damage, "Damage", "Damage tag for set by caller use")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_DamageType_Fire, "DamageType.Fire", "Fire DamageType tag for set by caller use")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_DamageType_Arcane, "DamageType.Arcane", "Arcane DamageType tag for set by caller use")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_DamageType_Lightning, "DamageType.Lightning", "Lightning DamageType tag for set by caller use")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_DamageType_Physical, "DamageType.Physical", "Physical DamageType tag for set by caller use")
+
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Resistance_Fire, "Attributes.Resistance.Fire", "Fire Resistance tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Resistance_Arcane, "Attributes.Resistance.Arcane", "Arcane Resistance tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Resistance_Lightning, "Attributes.Resistance.Lightning", "Lightning Resistance tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Resistance_Physical, "Attributes.Resistance.Physical", "Physical Resistance tag")
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Effect_HitReact, "Effect.HitReact", "Tag for Hit React Effect")

@@ -19,6 +19,12 @@ struct FAuraDamageStatics
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CritRate);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CritRes);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CritDamage);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(FireRes)
+	DECLARE_ATTRIBUTE_CAPTUREDEF(ArcaneRes)
+	DECLARE_ATTRIBUTE_CAPTUREDEF(LightningRes)
+	DECLARE_ATTRIBUTE_CAPTUREDEF(PhysicalRes)
+
+	TMap<FGameplayTag, FGameplayEffectAttributeCaptureDefinition> CaptureDefinitions;
 
 	FAuraDamageStatics()
 	{
@@ -28,6 +34,21 @@ struct FAuraDamageStatics
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, CritRate, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, CritRes, Target, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, CritDamage, Source, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, FireRes, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, ArcaneRes, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, LightningRes, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, PhysicalRes, Target, false);
+
+		CaptureDefinitions.Add(TAG_Attributes_Secondary_Armor, ArmorDef);
+		CaptureDefinitions.Add(TAG_Attributes_Secondary_ArmorPenetration, ArmorPenetrationDef);
+		CaptureDefinitions.Add(TAG_Attributes_Secondary_BlockRate, BlockRateDef);
+		CaptureDefinitions.Add(TAG_Attributes_Secondary_CritRate, CritRateDef);
+		CaptureDefinitions.Add(TAG_Attributes_Secondary_CritRes, CritResDef);
+		CaptureDefinitions.Add(TAG_Attributes_Secondary_CritDamage, CritDamageDef);
+		CaptureDefinitions.Add(TAG_Attributes_Resistance_Fire, FireResDef);
+		CaptureDefinitions.Add(TAG_Attributes_Resistance_Arcane, ArcaneResDef);
+		CaptureDefinitions.Add(TAG_Attributes_Resistance_Lightning, LightningResDef);
+		CaptureDefinitions.Add(TAG_Attributes_Resistance_Physical, PhysicalResDef);
 	}
 };
 
@@ -45,6 +66,10 @@ UExecCalc_Damage::UExecCalc_Damage()
 	RelevantAttributesToCapture.Add(DamageStatics().CritRateDef);
 	RelevantAttributesToCapture.Add(DamageStatics().CritResDef);
 	RelevantAttributesToCapture.Add(DamageStatics().CritDamageDef);
+	RelevantAttributesToCapture.Add(DamageStatics().FireResDef);
+	RelevantAttributesToCapture.Add(DamageStatics().ArcaneResDef);
+	RelevantAttributesToCapture.Add(DamageStatics().LightningResDef);
+	RelevantAttributesToCapture.Add(DamageStatics().PhysicalResDef);
 }
 
 void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
@@ -71,10 +96,20 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	float Damage = 0.f;
 	// Now use DamageTypeTags as needed
 	for (auto Pair : DamageToResistanceTags) {
-		UE_LOG(LogTemp, Error, TEXT("Damage Type Tag: %s"), *Pair.Key.ToString());
-		// Get Damage Set By Caller Magnitude
-		float DamageTypeValue = Spec.GetSetByCallerMagnitude(Pair.Key);
-		Damage += DamageTypeValue;
+
+		const FGameplayTag DamageTypeTag = Pair.Key;
+		const FGameplayTag ResistanceTag = Pair.Value;
+
+		checkf(DamageStatics().CaptureDefinitions.Contains(ResistanceTag), TEXT("Resistance Tag %s not found in DamageStatics"), *ResistanceTag.ToString());
+		const FGameplayEffectAttributeCaptureDefinition CaptureDef = DamageStatics().CaptureDefinitions[ResistanceTag];
+
+		Damage += Spec.GetSetByCallerMagnitude(DamageTypeTag);
+		
+		float Resistance = 0.f;
+		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(CaptureDef, EvaluateParameters, Resistance);
+		Resistance = FMath::Max<float>(0.f, 100.f);
+
+		Damage *= (100.f - Resistance) / 100.f;
 	}
 	
 	// Capture Block Chance on Target and Determine If There was a successful block

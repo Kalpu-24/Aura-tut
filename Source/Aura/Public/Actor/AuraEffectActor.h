@@ -48,7 +48,10 @@ protected:
 	void OnEndOverlap(AActor* TargetActor);
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
-	bool bDestroyActorOnEffectRemoval = false;
+	bool bDestroyOnEffectApplication = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
+	bool bApplyEffectToEnemies = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
 	TSubclassOf<UGameplayEffect> InstantGameplayEffect;
@@ -71,6 +74,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
 	TEnumAsByte<EEffectRemovalPolicy> InfiniteEffectRemovalPolicy = RemoveOnEndOverlap;
 
+	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandles;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
 	float ActorLevel = 1.f;
 };

@@ -50,4 +50,7 @@ public:
 
 	UFUNCTION(BlueprintPure, Category="AuraABilitySystem|GameplayTags")
 	static TMap<FGameplayTag, FGameplayTag> GetDamageToResistanceTags();
+
+	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|Gameplay Mechanics")
+	static void GetLivePlayersWithinRadius(const UObject* WorldContext, TArray<AActor*>& OutOverlappingActors, const TArray<AActor*>& ActorsToIgnore, float Radius, const FVector& SphereLocation);
 };

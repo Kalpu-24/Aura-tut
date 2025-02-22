@@ -43,16 +43,27 @@ void AAuraCharacterBase::MulticlassHandleDeath_Implementation()
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic,ECR_Block);
-
 	Dissolve();
+	bDead = true;
 }
 
 void AAuraCharacterBase::BeginPlay(){
 	Super::BeginPlay();
 }
 
+bool AAuraCharacterBase::IsDead_Implementation() const
+{
+	return bDead;
+}
+
+AActor* AAuraCharacterBase::GetAvatar_Implementation()
+{
+	return this;
+}
+
 FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation()
 {
+	check(Weapon);
 	return Weapon->GetSocketLocation(WeaponTipSocketName);
 }
 

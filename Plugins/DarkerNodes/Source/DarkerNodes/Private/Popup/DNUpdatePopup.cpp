@@ -38,10 +38,7 @@ void DNUpdatePopup::Register()
 		DNUpdatePopupConfig->PluginVersionUpdate = CurrentPluginVersion;
 		DNUpdatePopupConfig->SaveConfig(CPF_Config, *UpdatedConfigFile);
 
-		FCoreDelegates::OnPostEngineInit.AddLambda([]()
-		{
-			Open();
-		});
+	
 	}
 }
 

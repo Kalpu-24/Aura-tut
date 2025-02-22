@@ -39,4 +39,8 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Resistance_Physical, "Attributes.R
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Attack, "Abilities.Attack", "Attack Ability tag")
 
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Montage_Attack_Weapon, "Montage.Attack.Weapon", "Montage Attack Weapon tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Montage_Attack_RightHand, "Montage.Attack.RightHand", "Montage Attack RightHand tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Montage_Attack_LeftHand, "Montage.Attack.LeftHand", "Montage Attack LeftHand tag")
+
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Effect_HitReact, "Effect.HitReact", "Tag for Hit React Effect")

@@ -47,5 +47,6 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Montage_Attack_4, "Montage.Attack.4", "Montag
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_CombatSocket_Weapon, "CombatSocket.Weapon", "Montage Attack Weapon tag")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_CombatSocket_RightHand, "CombatSocket.RightHand", "Montage Attack RightHand tag")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_CombatSocket_LeftHand, "CombatSocket.LeftHand", "Montage Attack LeftHand tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_CombatSocket_Tail, "CombatSocket.Tail", "Montage Attack Tail tag")
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Effect_HitReact, "Effect.HitReact", "Tag for Hit React Effect")

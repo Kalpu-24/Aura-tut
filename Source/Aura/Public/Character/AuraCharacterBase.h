@@ -8,6 +8,7 @@
 #include "Interaction/CombatInterface.h"
 #include "AuraCharacterBase.generated.h"
 
+class UNiagaraSystem;
 class UGameplayAbility;
 class UGameplayEffect;
 class UAbilitySystemComponent;
@@ -32,6 +33,7 @@ public:
 	virtual AActor* GetAvatar_Implementation() override;
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag) override;
 	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
+	virtual UNiagaraSystem* GetBloodEffect_Implementation() override;
 
 
 	UFUNCTION(NetMulticast, Reliable)
@@ -95,6 +97,9 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UNiagaraSystem* BloodEffect;
 	
 private:
 	UPROPERTY(EditAnywhere)

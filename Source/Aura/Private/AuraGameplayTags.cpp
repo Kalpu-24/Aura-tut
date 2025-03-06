@@ -38,6 +38,7 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Resistance_Lightning, "Attributes.
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Resistance_Physical, "Attributes.Resistance.Physical", "Physical Resistance tag")
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Attack, "Abilities.Attack", "Attack Ability tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Summon, "Abilities.Summon", "Summon Ability tag")
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Montage_Attack_1, "Montage.Attack.1", "Montage Attack 1 tag")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Montage_Attack_2, "Montage.Attack.2", "Montage Attack 2 tag")

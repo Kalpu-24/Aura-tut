@@ -3,9 +3,7 @@
 
 #include "AbilitySystem/Abilities/AuraSummonAbility.h"
 
-#include "Kismet/KismetSystemLibrary.h"
-
-TArray<FVector> UAuraSummonAbility::GetSpawnLocations()
+TArray<FVector> UAuraSummonAbility::GetSpawnLocations() const
 {
 	const FVector ForwardVector = GetAvatarActorFromActorInfo()->GetActorForwardVector();
 	const FVector Location = GetAvatarActorFromActorInfo()->GetActorLocation();
@@ -28,4 +26,10 @@ TArray<FVector> UAuraSummonAbility::GetSpawnLocations()
 		SpawnLocations.Add(ChosenLocation);
 	}
 	return SpawnLocations;
+}
+
+TSubclassOf<APawn> UAuraSummonAbility::GetRandomMinionClass()
+{
+	int32 Selection = FMath::RandRange(0, MinionClass.Num()-1);
+	return MinionClass[Selection];
 }

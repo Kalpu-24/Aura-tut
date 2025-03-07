@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystem/Abilities/AuraGameplayAbility.h"
+#include "Character/AuraCharacterBase.h"
 #include "AuraSummonAbility.generated.h"
 
 /**
@@ -21,6 +22,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category="Summoning")
 	TSubclassOf<APawn> GetRandomMinionClass();
+
+	UFUNCTION(BlueprintPure, Category="Summoning")
+	AAuraCharacterBase* GetRandomMinionClassCDO() const;
 
 	UPROPERTY(EditDefaultsOnly, Category="Summoning")
 	int32 NumMinions = 5;

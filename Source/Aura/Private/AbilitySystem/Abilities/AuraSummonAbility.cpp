@@ -3,11 +3,12 @@
 
 #include "AbilitySystem/Abilities/AuraSummonAbility.h"
 
+
 TArray<FVector> UAuraSummonAbility::GetSpawnLocations() const
 {
 	const FVector ForwardVector = GetAvatarActorFromActorInfo()->GetActorForwardVector();
 	const FVector Location = GetAvatarActorFromActorInfo()->GetActorLocation();
-	const float DeltaSpread = SpawnSpread / NumMinions;
+	const float DeltaSpread = SpawnSpread / (NumMinions-1);
 
 	const FVector LeftOfSpread = ForwardVector.RotateAngleAxis(-SpawnSpread/2.f, FVector::UpVector);
 	TArray<FVector> SpawnLocations;
@@ -30,6 +31,15 @@ TArray<FVector> UAuraSummonAbility::GetSpawnLocations() const
 
 TSubclassOf<APawn> UAuraSummonAbility::GetRandomMinionClass()
 {
-	int32 Selection = FMath::RandRange(0, MinionClass.Num()-1);
+	if (MinionClass.Num() == 0) return nullptr;
+	const int32 Selection = FMath::RandRange(0, MinionClass.Num()-1);
 	return MinionClass[Selection];
+}
+
+AAuraCharacterBase* UAuraSummonAbility::GetRandomMinionClassCDO() const
+{
+	if (MinionClass.Num() == 0) return nullptr;
+ 
+	const int32 RandomMinionClassIdx = FMath::RandRange(0, MinionClass.Num() - 1);
+	return MinionClass[RandomMinionClassIdx]->GetDefaultObject<AAuraCharacterBase>();
 }

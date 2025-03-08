@@ -7,6 +7,8 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
 
+class UAuraGameplayAbility;
+
 void UOverlayWidgetController::BroadCastInitialValues()
 {
 	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
@@ -50,6 +52,13 @@ void UOverlayWidgetController::BindLambdasToDependencies()
 		{
 			AuraAsc->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::OnInitializeStartupAbilities);
 		}
+
+		AuraAsc->AbilityCommittedCallbacks.AddLambda(
+			[this](UGameplayAbility* Ability)
+			{
+				OnAbilityCommited.Broadcast(Ability);
+			}
+		);
 		
 		AuraAsc->EffectAssetTags.AddLambda(
 			[this](const FGameplayTagContainer& AssetTags)

@@ -70,6 +70,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|Ability")
 	FOnAbilityCommited OnAbilityCommited;
+
+	UPROPERTY(BlueprintAssignable, Category="GAS|XP")
+	FOnAttributeChangeSignature OnXpPercentChange;
  
 protected:
 
@@ -83,6 +86,8 @@ protected:
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
 
 	void OnInitializeStartupAbilities(UAuraAbilitySystemComponent* AuraAsc);
+
+	void OnXPChanged(int32 NewXP) const;
 };
 
 template <typename T>

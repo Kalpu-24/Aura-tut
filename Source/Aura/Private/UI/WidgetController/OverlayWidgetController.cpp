@@ -79,4 +79,5 @@ void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemCo
 			AbilityInfoDelegate.Broadcast(Info);
 		}
 	);
+	AuraAsc->ForEachAbility(BroadcastDelegate);
 }

@@ -72,7 +72,7 @@ FGameplayTag UAuraAbilitySystemComponent::GetAbilityTagFromAbilitySpec(const FGa
 	{
 		for (FGameplayTag Tag : AbilitySpec.Ability->AbilityTags)
 		{
-			if (Tag.MatchesTagExact(FGameplayTag::RequestGameplayTag(FName("Abilities"))))
+			if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Abilities"))))
 			{
 				return Tag;
 			}

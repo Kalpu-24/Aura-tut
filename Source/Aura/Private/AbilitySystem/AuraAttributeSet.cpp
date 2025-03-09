@@ -123,7 +123,6 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
-		UE_LOG(LogTemp, Warning, TEXT("Health: %f on %s"), GetHealth(), *Props.TargetProperties->AvatarActor->GetName());
 	}
 	if (Data.EvaluatedData.Attribute == GetManaAttribute())
 	{
@@ -157,6 +156,12 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			const bool bIsCriticalHit = UAuraAbilitySystemLibrary::IsCriticalHit(Props.ContextHandle);
 			ShowFloatingText(Props, LocalIncomingDamage, bIsDamageHit, bIsCriticalHit);
 		}
+	}
+	if (Data.EvaluatedData.Attribute == GetIncomingXPAttribute())
+	{
+		const float LocalIncomingXP = GetIncomingXP();
+		SetIncomingXP(0.f);
+		UE_LOG(LogTemp, Warning, TEXT("Incoming XP: %f on %s"), LocalIncomingXP, *Props.TargetProperties->AvatarActor->GetName());
 	}
 }
 

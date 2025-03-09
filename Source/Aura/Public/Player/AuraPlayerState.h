@@ -30,7 +30,7 @@ public:
 	TObjectPtr<ULevelUpInfo> LevelUpInfo;
 
 	FORCEINLINE int32 GetPlayerLevel() const {return Level;}
-	FORCEINLINE int32 GetPlayerXP() const {return XP;}
+	FORCEINLINE int32 GetXP() const {return XP;}
 
 	void AddToLevel(int32 InLevel);
 	void AddToXp(int32 InXP);

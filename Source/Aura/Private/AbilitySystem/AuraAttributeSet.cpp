@@ -101,6 +101,23 @@ void UAuraAttributeSet::ShowFloatingText(const FEffectPropertiesEnhanced& Props,
 	}
 }
 
+void UAuraAttributeSet::SendXPEvent(const FEffectPropertiesEnhanced& Props)
+{
+	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetProperties->Character))
+	{
+		const int32 TargetLevel = CombatInterface->GetPlayerLevel();
+		const ECharacterClass TargetClass = ICombatInterface::Execute_GetCharacterClass(Props.TargetProperties->Character);
+
+		const int32 XPReward = UAuraAbilitySystemLibrary::GetXPRewardForClassAndLevel(Props.TargetProperties->Character, TargetClass, TargetLevel);
+
+		FGameplayEventData Payload;
+		Payload.EventTag = TAG_Attributes_Meta_IncomingXP;
+		Payload.EventMagnitude = XPReward;
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Props.SourceProperties->Character, TAG_Attributes_Meta_IncomingXP, Payload);
+	}
+	
+}
+
 void UAuraAttributeSet::PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const
 {
 	Super::PreAttributeBaseChange(Attribute, NewValue);
@@ -145,6 +162,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				{
 					CombatInterface->Die();
 				}
+				SendXPEvent(Props);
 			}
 			else
 			{

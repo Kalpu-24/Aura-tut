@@ -19,9 +19,10 @@ public:
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
 
-	virtual int32 GetPlayerLevel() override;
+	virtual int32 GetPlayerLevel_Implementation() override;
 
 	virtual void AddToXP_Implementation(int32 XP) override;
+	virtual void LevelUp_Implementation() override;
 private:
 	virtual void InitAbilityActorInfo() override;
 };

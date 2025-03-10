@@ -29,6 +29,9 @@ void UAttributeMenuWidgetController::BroadCastAttributeInfo(FAuraAttributeInfo& 
 {
 	Info.AttributeValue = Info.Attribute.GetNumericValue(AttributeSet);
 	AttributeInfoDelegate.Broadcast(Info);
+
+	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
+	AttributePointsChangedDelegate.Broadcast(AuraPlayerState->GetAttributePoints());
 }
 
 void UAttributeMenuWidgetController::BroadCastInitialValues()

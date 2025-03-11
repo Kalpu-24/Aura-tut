@@ -62,6 +62,7 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+	virtual void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
 	
 	/*
 	 * Primary Attributes
@@ -231,4 +232,6 @@ private:
 	static void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectPropertiesEnhanced& Props);
 	void ShowFloatingText(const FEffectPropertiesEnhanced& Props, float Damage, bool bIsBlockedHit, bool bIsCriticalHit) const;
 	void SendXPEvent(const FEffectPropertiesEnhanced& Props);
+	bool bTopOffHealth = false;
+	bool bTopOffMana = false;
 };

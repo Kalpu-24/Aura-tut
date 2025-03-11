@@ -3,16 +3,21 @@
 
 #include "UI/WidgetController/AttributeMenuWidgetController.h"
 
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/AttributeInfo.h"
 #include "Player/AuraPlayerState.h"
 
 void UAttributeMenuWidgetController::BindLambdasToDependencies()
 {
-	for (FAuraAttributeInfo& AttributeInfoItem : AttributeInfo->AttributeInfos)
+	for (FAuraAttributeInfo AttributeInfoItem : AttributeInfo->AttributeInfos)
 	{
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AttributeInfoItem.Attribute).AddLambda(
-			[this, AttributeInfoItem](const FOnAttributeChangeData& Data){AttributeInfoDelegate.Broadcast(AttributeInfoItem);}
+			[this, AttributeInfoItem](const FOnAttributeChangeData& Data)
+			{
+				FAuraAttributeInfo Info = AttributeInfoItem;
+				BroadCastAttributeInfo(Info);
+			}
 		);
 	}
 
@@ -32,6 +37,12 @@ void UAttributeMenuWidgetController::BroadCastAttributeInfo(FAuraAttributeInfo& 
 
 	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
 	AttributePointsChangedDelegate.Broadcast(AuraPlayerState->GetAttributePoints());
+}
+
+void UAttributeMenuWidgetController::UpgradeAttribute(const FGameplayTag& AttributeTag)
+{
+	UAuraAbilitySystemComponent* AuraAbilitySystemComponent = CastChecked<UAuraAbilitySystemComponent>(AbilitySystemComponent);
+	AuraAbilitySystemComponent->UpgradeAttribute(AttributeTag);
 }
 
 void UAttributeMenuWidgetController::BroadCastInitialValues()

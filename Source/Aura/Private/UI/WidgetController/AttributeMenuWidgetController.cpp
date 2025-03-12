@@ -6,13 +6,12 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/AttributeInfo.h"
-#include "Player/AuraPlayerState.h"
 
 void UAttributeMenuWidgetController::BindLambdasToDependencies()
 {
 	for (FAuraAttributeInfo AttributeInfoItem : AttributeInfo->AttributeInfos)
 	{
-		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AttributeInfoItem.Attribute).AddLambda(
+		GetAuraASC()->GetGameplayAttributeValueChangeDelegate(AttributeInfoItem.Attribute).AddLambda(
 			[this, AttributeInfoItem](const FOnAttributeChangeData& Data)
 			{
 				FAuraAttributeInfo Info = AttributeInfoItem;
@@ -20,9 +19,8 @@ void UAttributeMenuWidgetController::BindLambdasToDependencies()
 			}
 		);
 	}
-
-	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
-	AuraPlayerState->OnAttributePointsChangedDelegate.AddLambda(
+	
+	GetAuraPS()->OnAttributePointsChangedDelegate.AddLambda(
 		[this](int32 AttributePoints)
 		{
 			AttributePointsChangedDelegate.Broadcast(AttributePoints);
@@ -30,19 +28,17 @@ void UAttributeMenuWidgetController::BindLambdasToDependencies()
 	);
 }
 
-void UAttributeMenuWidgetController::BroadCastAttributeInfo(FAuraAttributeInfo& Info) const
+void UAttributeMenuWidgetController::BroadCastAttributeInfo(FAuraAttributeInfo& Info)
 {
 	Info.AttributeValue = Info.Attribute.GetNumericValue(AttributeSet);
 	AttributeInfoDelegate.Broadcast(Info);
 
-	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
-	AttributePointsChangedDelegate.Broadcast(AuraPlayerState->GetAttributePoints());
+	AttributePointsChangedDelegate.Broadcast(GetAuraPS()->GetAttributePoints());
 }
 
 void UAttributeMenuWidgetController::UpgradeAttribute(const FGameplayTag& AttributeTag)
 {
-	UAuraAbilitySystemComponent* AuraAbilitySystemComponent = CastChecked<UAuraAbilitySystemComponent>(AbilitySystemComponent);
-	AuraAbilitySystemComponent->UpgradeAttribute(AttributeTag);
+	GetAuraASC()->UpgradeAttribute(AttributeTag);
 }
 
 void UAttributeMenuWidgetController::BroadCastInitialValues()

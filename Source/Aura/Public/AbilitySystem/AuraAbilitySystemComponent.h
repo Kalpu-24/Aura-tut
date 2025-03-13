@@ -10,6 +10,7 @@
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer& /* Asset Tags */)
 DECLARE_MULTICAST_DELEGATE(FAbilitiesGiven)
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FAbilityStatusChanged, const FGameplayTag& /* AbilityTag */, const FGameplayTag& /* StatusTag */);
 
 /**
  * 
@@ -24,6 +25,7 @@ public:
 
 	FEffectAssetTags EffectAssetTags;
 	FAbilitiesGiven AbilitiesGivenDelegate;
+	FAbilityStatusChanged AbilityStatusChangedDelegate;
 
 	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
 	void AddCharacterPassiveAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupPassiveAbilities);
@@ -51,15 +53,7 @@ protected:
 	void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& GameplayEffectSpec, FActiveGameplayEffectHandle ActiveGameplayEffectHandle) const;
 
 	virtual void OnRep_ActivateAbilities() override;
+
+	UFUNCTION(Client, Reliable)
+	void ClientUpdateAbilityStatus(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag);
 };
-
-inline void UAuraAbilitySystemComponent::OnRep_ActivateAbilities()
-{
-	Super::OnRep_ActivateAbilities();
-
-	if (!bStartupAbilitiesGiven)
-	{
-		bStartupAbilitiesGiven = true;
-		AbilitiesGivenDelegate.Broadcast();
-	}
-}

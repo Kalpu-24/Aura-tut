@@ -168,13 +168,14 @@ void UAuraAbilitySystemComponent::UpdateAbilityStatuses(int32 Level)
 		for (const FAuraAbilityInfo& Info : AbilityInfo->AbilityInformation)
 		{
 			if (!Info.AbilityTag.IsValid()) continue;
-			if (Level >= Info.LevelRequirement) continue;
+			if (Level < Info.LevelRequirement) continue;
 			if (GetSpecFromAbilityTag(Info.AbilityTag) == nullptr)
 			{
 				FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Info.AbilityClass, 1);
 				AbilitySpec.GetDynamicSpecSourceTags().AddTag(TAG_Abilities_Status_Eligible);
 				GiveAbility(AbilitySpec);
 				MarkAbilitySpecDirty(AbilitySpec);
+				ClientUpdateAbilityStatus(Info.AbilityTag, TAG_Abilities_Status_Eligible);
 			}
 		}
 	}
@@ -187,4 +188,21 @@ void UAuraAbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySys
 	GameplayEffectSpec.GetAllAssetTags(GameplayTagContainer);
 
 	EffectAssetTags.Broadcast(GameplayTagContainer);
+}
+
+void UAuraAbilitySystemComponent::OnRep_ActivateAbilities()
+{
+	Super::OnRep_ActivateAbilities();
+
+	if (!bStartupAbilitiesGiven)
+	{
+		bStartupAbilitiesGiven = true;
+		AbilitiesGivenDelegate.Broadcast();
+	}
+}
+
+void UAuraAbilitySystemComponent::ClientUpdateAbilityStatus_Implementation(const FGameplayTag& AbilityTag,
+	const FGameplayTag& StatusTag)
+{
+	AbilityStatusChangedDelegate.Broadcast(AbilityTag, StatusTag);
 }

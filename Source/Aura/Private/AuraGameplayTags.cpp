@@ -41,6 +41,8 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_DamageType_Arcane, "DamageType.Arcane", "Arca
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_DamageType_Lightning, "DamageType.Lightning", "Lightning DamageType tag for set by caller use")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_DamageType_Physical, "DamageType.Physical", "Physical DamageType tag for set by caller use")
 
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_None, "Abilities.None", "None Ability tag")
+
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Attack, "Abilities.Attack", "Attack Ability tag")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Summon, "Abilities.Summon", "Summon Ability tag")
 

@@ -3,6 +3,7 @@
 
 #include "UI/WidgetController/SpellMenuWidgetController.h"
 
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Player/AuraPlayerState.h"
 
@@ -32,4 +33,58 @@ void USpellMenuWidgetController::BroadCastInitialValues()
 {
 	BroadcastAbilityInfo();
 	SpellPointsChangedDelegate.Broadcast(GetAuraPS()->GetSpellPoints());
+}
+
+void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityTag)
+{
+	const int32 SpellPoints = GetAuraPS()->GetSpellPoints();
+	FGameplayTag AbilityStatus;
+
+	bool bTagValid = AbilityTag.IsValid();
+	bool bTagNone = AbilityTag.MatchesTagExact(TAG_Abilities_None);
+	FGameplayAbilitySpec* AbilitySpec = GetAuraASC()->GetSpecFromAbilityTag(AbilityTag);
+	bool bSpecValid = AbilitySpec != nullptr;
+	if (!bTagValid || bTagNone || !bSpecValid)
+	{
+		AbilityStatus = TAG_Abilities_Status_Locked;
+	}
+	else
+	{
+		AbilityStatus = GetAuraASC()->GetStatusFromSpec(*AbilitySpec);
+	}
+
+	bool bSpendPointsButtonEnabled = false;
+	bool bEquipButtonEnabled = false;
+	ShouldEnableButtons(AbilityStatus, SpellPoints, bSpendPointsButtonEnabled, bEquipButtonEnabled);
+	SpellGlobeSelectedDelegate.Broadcast(bSpendPointsButtonEnabled, bEquipButtonEnabled);
+}
+
+void USpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& AbilityStatus, const int32 SpellPoints,
+	bool& bSpendPointsButtonEnabled, bool& bEquipButtonEnabled)
+{
+	bSpendPointsButtonEnabled = false;
+	bEquipButtonEnabled = false;
+	if (AbilityStatus.MatchesTagExact(TAG_Abilities_Status_Equipped))
+	{
+		bEquipButtonEnabled = true;
+		if (SpellPoints > 0)
+		{
+			bSpendPointsButtonEnabled = true;
+		}
+	}
+	else if (AbilityStatus.MatchesTagExact(TAG_Abilities_Status_Eligible))
+	{
+		if (SpellPoints > 0)
+		{
+			bSpendPointsButtonEnabled = true;
+		}
+	}
+	else if (AbilityStatus.MatchesTagExact(TAG_Abilities_Status_Unlocked))
+	{
+		bEquipButtonEnabled = true;
+		if (SpellPoints > 0)
+		{
+			bSpendPointsButtonEnabled = true;
+		}
+	}
 }

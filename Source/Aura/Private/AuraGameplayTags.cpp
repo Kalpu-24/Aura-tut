@@ -44,6 +44,17 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_DamageType_Physical, "DamageType.Physical", "
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Attack, "Abilities.Attack", "Attack Ability tag")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Summon, "Abilities.Summon", "Summon Ability tag")
 
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_HitReact, "Abilities.HitReact", "Hit React Ability tag")
+
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Status_Locked, "Abilities.Status.Locked", "Locked Ability tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Status_Eligible, "Abilities.Status.Eligible", "Eligible Ability tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Status_Unlocked, "Abilities.Status.Unlocked", "Unlocked Ability tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Status_Equipped, "Abilities.Status.Equipped", "Equipped Ability tag")
+
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Types_Offensive, "Abilities.Types.Offensive", "Offensive Ability tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Types_Passive, "Abilities.Types.Passive", "Passive Ability tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Types_None, "Abilities.Types.None", "None Ability tag")
+
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Fire_Firebolt, "Abilities.Fire.Firebolt", "Firebolt Ability tag")
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Cooldown_Fire_Firebolt, "Cooldown.Fire.Firebolt", "Firebolt Cooldown tag")

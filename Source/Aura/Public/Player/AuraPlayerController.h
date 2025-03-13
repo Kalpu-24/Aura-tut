@@ -20,16 +20,16 @@ struct FCameraOccludedActor
 	GENERATED_USTRUCT_BODY()
  
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	const AActor* Actor;
+	const AActor* Actor = nullptr;
  
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UStaticMeshComponent* StaticMesh;
+	UStaticMeshComponent* StaticMesh = nullptr;
   
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<UMaterialInterface*> Materials;
  
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	bool IsOccluded;
+	bool IsOccluded = false;
 };
 class ITargetInterface;
 /**
@@ -110,6 +110,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UAuraInputConfig> InputConfig;
 
+	UPROPERTY()
 	TObjectPtr<UAuraAbilitySystemComponent> AbilitySystemComponent;
 
 	UAuraAbilitySystemComponent* GetAsc();
@@ -131,6 +132,7 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UDamageTextComponent> DamageTextComponent;
 
+	UPROPERTY()
 	TMap<const AActor*, FCameraOccludedActor> OccludedActors;
   
 	bool HideOccludedActor(const AActor* Actor);

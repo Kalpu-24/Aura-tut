@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
+#include "Data/AbilityInfo.h"
 #include "Data/CharacterClassInfo.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "AuraAbilitySystemLibrary.generated.h"
@@ -43,6 +44,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|CharacterClassDefaults")
 	static UCharacterClassInfo* GetCharacterClassInfo(const UObject* WorldObject);
+
+	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|CharacterClassDefaults")
+	static UAbilityInfo* GetAbilityInfo(const UObject* WorldObject);
 
 	UFUNCTION(BlueprintPure, Category="AuraABilitySystem|GameplayEffects")
 	static bool IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle);

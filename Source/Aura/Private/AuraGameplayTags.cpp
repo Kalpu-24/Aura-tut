@@ -56,6 +56,7 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Types_Passive, "Abilities.Types.Pas
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Types_None, "Abilities.Types.None", "None Ability tag")
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Fire_Firebolt, "Abilities.Fire.Firebolt", "Firebolt Ability tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Lightning_Electrocute, "Abilities.Lightning.Electrocute", "Electrocute Ability tag")
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Cooldown_Fire_Firebolt, "Cooldown.Fire.Firebolt", "Firebolt Cooldown tag")
 

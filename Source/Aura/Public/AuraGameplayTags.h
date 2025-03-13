@@ -57,6 +57,7 @@ UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Abilities_Types_Passive)
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Abilities_Types_None)
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Abilities_Fire_Firebolt)
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Abilities_Lightning_Electrocute)
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Cooldown_Fire_Firebolt)
 

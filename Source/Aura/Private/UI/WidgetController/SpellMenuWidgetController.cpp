@@ -10,5 +10,5 @@ void USpellMenuWidgetController::BindLambdasToDependencies()
 
 void USpellMenuWidgetController::BroadCastInitialValues()
 {
-	
+	BroadcastAbilityInfo();	
 }

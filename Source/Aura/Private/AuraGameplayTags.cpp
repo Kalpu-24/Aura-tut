@@ -32,6 +32,8 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InputTag_1, "InputTag.1", "Input Tag for 1 Ke
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InputTag_2, "InputTag.2", "Input Tag for 2 Key")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InputTag_3, "InputTag.3", "Input Tag for 3 Key")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InputTag_4, "InputTag.4", "Input Tag for 4 Key")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InputTag_Passive_1, "InputTag.Passive.1", "Input Tag for Passive 1")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InputTag_Passive_2, "InputTag.Passive.2", "Input Tag for Passive 2")
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Damage, "Damage", "Damage tag for set by caller use")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_DamageType_Fire, "DamageType.Fire", "Fire DamageType tag for set by caller use")

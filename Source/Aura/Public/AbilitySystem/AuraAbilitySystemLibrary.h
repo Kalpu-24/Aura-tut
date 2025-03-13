@@ -8,6 +8,9 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "AuraAbilitySystemLibrary.generated.h"
 
+class AAuraHUD;
+struct FWidgetControllerParams;
+class USpellMenuWidgetController;
 struct FGameplayEffectContextHandle;
 class UAbilitySystemComponent;
 class UAttributeMenuWidgetController;
@@ -20,12 +23,17 @@ class AURA_API UAuraAbilitySystemLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 public:
+	UFUNCTION(BlueprintPure, Category="AuraABilitySystem|WidgetController", meta=(DefaultToSelf="WorldContext"))
+	static bool MakeWCParams(const UObject* WorldContext, FWidgetControllerParams& OutWCParams, AAuraHUD*& OutAuraHUD);
 
-	UFUNCTION(BlueprintPure, Category="AuraABilitySystem|WidgetController")
+	UFUNCTION(BlueprintPure, Category="AuraABilitySystem|WidgetController", meta=(DefaultToSelf="WorldContext"))
 	static UOverlayWidgetController* GetOverlayWidgetController(const UObject* WorldContext);
 
-	UFUNCTION(BlueprintPure, Category="AuraABilitySystem|WidgetController")
+	UFUNCTION(BlueprintPure, Category="AuraABilitySystem|WidgetController", meta=(DefaultToSelf="WorldContext"))
 	static UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const UObject* WorldContext);
+
+	UFUNCTION(BlueprintPure, Category="AuraABilitySystem|WidgetController", meta=(DefaultToSelf="WorldContext"))
+	static USpellMenuWidgetController* GetSpellMenuWidgetController(const UObject* WorldContext);
 
 	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|CharacterClassDefaults")
 	static void InitializeDefaultAttributes(const UObject* WorldContext, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* Asc);

@@ -119,6 +119,22 @@ FGameplayTag UAuraAbilitySystemComponent::GetStatusFromSpec(const FGameplayAbili
 	return FGameplayTag();
 }
 
+FGameplayAbilitySpec* UAuraAbilitySystemComponent::GetSpecFromAbilityTag(const FGameplayTag& AbilityTag)
+{
+	FScopedAbilityListLock ActiveScopeLock(*this);
+	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		for (FGameplayTag Tag : AbilitySpec.Ability->GetAssetTags())
+		{
+			if (Tag.MatchesTag(AbilityTag))
+			{
+				return &AbilitySpec;
+			}
+		}
+	}
+	return nullptr;
+}
+
 void UAuraAbilitySystemComponent::UpgradeAttribute(const FGameplayTag& AttributeTag)
 {
 	if (GetAvatarActor()->Implements<UPlayerInterface>())
@@ -141,6 +157,26 @@ void UAuraAbilitySystemComponent::ServerUpgradeAttribute_Implementation(const FG
 	if (GetAvatarActor()->Implements<UPlayerInterface>())
 	{
 		IPlayerInterface::Execute_AddToAttributePoints(GetAvatarActor(), -1);
+	}
+}
+
+void UAuraAbilitySystemComponent::UpdateAbilityStatuses(int32 Level)
+{
+	UAbilityInfo* AbilityInfo = UAuraAbilitySystemLibrary::GetAbilityInfo(GetAvatarActor());
+	if (AbilityInfo)
+	{
+		for (const FAuraAbilityInfo& Info : AbilityInfo->AbilityInformation)
+		{
+			if (!Info.AbilityTag.IsValid()) continue;
+			if (Level >= Info.LevelRequirement) continue;
+			if (GetSpecFromAbilityTag(Info.AbilityTag) == nullptr)
+			{
+				FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Info.AbilityClass, 1);
+				AbilitySpec.GetDynamicSpecSourceTags().AddTag(TAG_Abilities_Status_Eligible);
+				GiveAbility(AbilitySpec);
+				MarkAbilitySpecDirty(AbilitySpec);
+			}
+		}
 	}
 }
 

@@ -10,7 +10,7 @@
 void USpellMenuWidgetController::BindLambdasToDependencies()
 {
 	GetAuraASC()->AbilityStatusChangedDelegate.AddLambda(
-		[this](const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag)
+		[this](const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 NewLevel)
 		{
 			if (SelectedAbility.AbilityTag.MatchesTagExact(AbilityTag))
 			{
@@ -101,5 +101,13 @@ void USpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& Ability
 		{
 			bSpendPointsButtonEnabled = true;
 		}
+	}
+}
+
+void USpellMenuWidgetController::SpendPointButtonPressed()
+{
+	if (GetAuraASC())
+	{
+		GetAuraASC()->ServerSpendSpellPoint(SelectedAbility.AbilityTag);
 	}
 }

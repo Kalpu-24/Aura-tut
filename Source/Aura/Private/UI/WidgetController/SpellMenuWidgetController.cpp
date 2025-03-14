@@ -18,7 +18,10 @@ void USpellMenuWidgetController::BindLambdasToDependencies()
 				bool bSpendPointsButtonEnabled = false;
 				bool bEquipButtonEnabled = false;
 				ShouldEnableButtons(StatusTag, CurrentSpellPoints, bSpendPointsButtonEnabled, bEquipButtonEnabled);
-				SpellGlobeSelectedDelegate.Broadcast(bSpendPointsButtonEnabled, bEquipButtonEnabled);
+				FString Description;
+				FString NextLevelDescription;
+				GetAuraASC()->GetDescriptionsByAbilityTag(AbilityTag, Description, NextLevelDescription);
+				SpellGlobeSelectedDelegate.Broadcast(bSpendPointsButtonEnabled, bEquipButtonEnabled, Description, NextLevelDescription);
 			}
 			if (AbilityInfo)
 			{
@@ -37,7 +40,10 @@ void USpellMenuWidgetController::BindLambdasToDependencies()
 			bool bSpendPointsButtonEnabled = false;
 			bool bEquipButtonEnabled = false;
 			ShouldEnableButtons(SelectedAbility.StatusTag, CurrentSpellPoints, bSpendPointsButtonEnabled, bEquipButtonEnabled);
-			SpellGlobeSelectedDelegate.Broadcast(bSpendPointsButtonEnabled, bEquipButtonEnabled);
+			FString Description;
+			FString NextLevelDescription;
+			GetAuraASC()->GetDescriptionsByAbilityTag(SelectedAbility.AbilityTag, Description, NextLevelDescription);
+			SpellGlobeSelectedDelegate.Broadcast(bSpendPointsButtonEnabled, bEquipButtonEnabled, Description, NextLevelDescription);
 		}
 	);
 }
@@ -71,7 +77,10 @@ void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityT
 	bool bSpendPointsButtonEnabled = false;
 	bool bEquipButtonEnabled = false;
 	ShouldEnableButtons(AbilityStatus, SpellPoints, bSpendPointsButtonEnabled, bEquipButtonEnabled);
-	SpellGlobeSelectedDelegate.Broadcast(bSpendPointsButtonEnabled, bEquipButtonEnabled);
+	FString Description;
+	FString NextLevelDescription;
+	GetAuraASC()->GetDescriptionsByAbilityTag(AbilityTag, Description, NextLevelDescription);
+	SpellGlobeSelectedDelegate.Broadcast(bSpendPointsButtonEnabled, bEquipButtonEnabled, Description, NextLevelDescription);
 }
 
 void USpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& AbilityStatus, const int32 SpellPoints,

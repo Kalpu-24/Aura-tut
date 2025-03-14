@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayAbilitySpec.h"
 #include "GameplayTagContainer.h"
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "OverlayWidgetController.generated.h"
@@ -35,8 +36,7 @@ struct FOnAttributeChangeData;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangeSignature, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAbilityCommited, UGameplayAbility*, Ability);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnAbilityCommited, FGameplayTag, AbilityTag, float, Cooldown);
 /**
  * 
  */
@@ -83,6 +83,8 @@ protected:
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
 
 	void OnXPChanged(int32 NewXP);
+
+	void OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, const FGameplayTag& SlotTag, const FGameplayTag& PrevSlotTag);
 };
 
 template <typename T>

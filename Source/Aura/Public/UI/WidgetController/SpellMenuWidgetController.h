@@ -8,6 +8,7 @@
 #include "SpellMenuWidgetController.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnSpellGlobeSelectedSignature, bool, bSpendPointsButtonEnabled, bool, bEquipButtonEnabled, FString, Description, FString, NextLevelDescription);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWaitForEquipButtonSignature, const FGameplayTag&, AbilityTag);
 
 struct FSelectedAbility
 {
@@ -32,15 +33,25 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnSpellGlobeSelectedSignature SpellGlobeSelectedDelegate;
 
+	UPROPERTY(BlueprintAssignable)
+	FWaitForEquipButtonSignature WaitForEquipButtonDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FWaitForEquipButtonSignature StopWaitForEquipButtonDelegate;
+
 	UFUNCTION(BlueprintCallable)
 	void SpellGlobeSelected(const FGameplayTag& AbilityTag);
 
 	UFUNCTION(BlueprintCallable)
 	void SpendPointButtonPressed();
 
+	UFUNCTION(BlueprintCallable)
+	void EquipButtonPressed();
+
 private:
 	static void ShouldEnableButtons(const FGameplayTag& AbilityStatus, const int32 SpellPoints, bool& bSpendPointsButtonEnabled, bool& bEquipButtonEnabled);
 
 	FSelectedAbility SelectedAbility = {TAG_Abilities_None, TAG_Abilities_Status_Locked};
 	int32 CurrentSpellPoints = 0;
+	bool bWaitingForEquipSelection = false;
 };

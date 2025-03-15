@@ -46,6 +46,11 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Debuff_Stun, "Debuff.Stun", "Stun Debuff tag"
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Debuff_Arcane, "Debuff.Arcane", "Arcane Debuff tag")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Debuff_Physical, "Debuff.Physical", "Physical Debuff tag")
 
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Debuff_Chance, "Debuff.Chance", "Debuff Chance tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Debuff_Damage, "Debuff.Damage", "Debuff Damage tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Debuff_Frequency, "Debuff.Frequency", "Debuff Frequency tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Debuff_Duration, "Debuff.Duration", "Debuff Duration tag")
+
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_None, "Abilities.None", "None Ability tag")
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Attack, "Abilities.Attack", "Attack Ability tag")

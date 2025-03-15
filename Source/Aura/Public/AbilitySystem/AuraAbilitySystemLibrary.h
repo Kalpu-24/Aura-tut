@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AuraAbilitySystemTypes.h"
 #include "GameplayTagContainer.h"
 #include "Data/AbilityInfo.h"
 #include "Data/CharacterClassInfo.h"
@@ -69,8 +70,11 @@ public:
 	UFUNCTION(BlueprintPure, Category="AuraABilitySystem|Gameplay Mechanics")
 	static bool IsNotFriend(AActor* FirstActor, AActor* SecondActor);
 
-	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|Gameplay Mechanics")
+	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|GameplayTags")
 	static TMap<FGameplayTag, FGameplayTag> GetDamageTypesToDebuffTags();
+
+	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|Damage Effect")
+	static FGameplayEffectContextHandle ApplyDamageEffect(const FDamageEffectParams& Params);
 
 	static int32 GetXPRewardForClassAndLevel(const UObject* WorldContext, ECharacterClass CharacterClass, int32 CharacterLevel);
 };

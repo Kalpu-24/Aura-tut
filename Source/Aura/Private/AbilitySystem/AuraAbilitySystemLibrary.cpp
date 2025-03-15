@@ -212,19 +212,10 @@ bool UAuraAbilitySystemLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondAc
 TMap<FGameplayTag, FGameplayTag> UAuraAbilitySystemLibrary::GetDamageTypesToDebuffTags()
 {
 	TMap<FGameplayTag, FGameplayTag> OutMap;
-	// Get the parent tag
-	const FGameplayTag DamageTypeParentTag = FGameplayTag::RequestGameplayTag(FName("DamageType"));
-	const FGameplayTag DebuffTypeParentTag = FGameplayTag::RequestGameplayTag(FName("Debuff"));
-
-	// Get the tag node from the hierarchy
-	TArray<TSharedPtr<FGameplayTagNode>> DamageTypeChildTagNodes = UGameplayTagsManager::Get().FindTagNode(DamageTypeParentTag)->GetChildTagNodes();
-	TArray<TSharedPtr<FGameplayTagNode>> DebuffTypeChildTagNodes = UGameplayTagsManager::Get().FindTagNode(DebuffTypeParentTag)->GetChildTagNodes();
-
-	for (int i = 0; i < DamageTypeChildTagNodes.Num(); i++)
-	{
-		OutMap.Add(DamageTypeChildTagNodes[i]->GetCompleteTag(), DebuffTypeChildTagNodes[i]->GetCompleteTag());
-	}
-
+	OutMap.Add(TAG_DamageType_Fire, TAG_Debuff_Burn);
+	OutMap.Add(TAG_DamageType_Lightning, TAG_Debuff_Stun);
+	OutMap.Add(TAG_DamageType_Arcane, TAG_Debuff_Arcane);
+	OutMap.Add(TAG_DamageType_Physical, TAG_Debuff_Physical);
 	return OutMap;
 }
 

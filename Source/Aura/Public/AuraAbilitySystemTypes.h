@@ -51,12 +51,25 @@ struct FAuraGameplayEffectContext : public FGameplayEffectContext
 
 public:
 	bool IsBlockedHit() const {return bIsBlockedHit;}
-
 	void SetIsBlockedHit(const bool bIsInBlockedHit) {this->bIsBlockedHit = bIsInBlockedHit;}
 
 	bool IsCritHit() const {return bIsCritHit;}
-
 	void SetIsCritHit(const bool bIsInCritHit) {this->bIsCritHit = bIsInCritHit;}
+
+	bool IsSuccessfulDebuff() const {return bIsSuccessfulDebuff;}
+	void SetIsSuccessfulDebuff(const bool bIsInSuccessfulDebuff) {this->bIsSuccessfulDebuff = bIsInSuccessfulDebuff;}
+
+	float GetDebuffDamage() const {return DebuffDamage;}
+	void SetDebuffDamage(const float InDebuffDamage) {this->DebuffDamage = InDebuffDamage;}
+
+	float GetDebuffFrequency() const {return DebuffFrequency;}
+	void SetDebuffFrequency(const float InDebuffFrequency) {this->DebuffFrequency = InDebuffFrequency;}
+
+	float GetDebuffDuration() const {return DebuffDuration;}
+	void SetDebuffDuration(const float InDebuffDuration) {this->DebuffDuration = InDebuffDuration;}
+
+	void SetDamageType(const FGameplayTag& InDamageType) {this->DamageType = MakeShared<FGameplayTag>(InDamageType);}
+	TSharedPtr<FGameplayTag> GetDamageType() const {return DamageType;}
 	
 	virtual UScriptStruct* GetScriptStruct() const override {return StaticStruct();}
 	virtual FAuraGameplayEffectContext* Duplicate() const override
@@ -78,6 +91,20 @@ protected:
 
 	UPROPERTY()
 	bool bIsCritHit = false;
+
+	UPROPERTY()
+	bool bIsSuccessfulDebuff = false;
+
+	UPROPERTY()
+	float DebuffDamage = 0.f;
+
+	UPROPERTY()
+	float DebuffFrequency = 0.f;
+
+	UPROPERTY()
+	float DebuffDuration = 0.f;
+
+	TSharedPtr<FGameplayTag> DamageType;
 };
 
 template<>

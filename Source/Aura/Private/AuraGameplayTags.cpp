@@ -19,11 +19,6 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Secondary_ManaRegen, "Attributes.S
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Secondary_MaxHealth, "Attributes.Secondary.MaxHealth", "Maximum amount of health obtainable")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Secondary_MaxMana, "Attributes.Secondary.MaxMana", "Maximum amount of mana obtainable")
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Resistance_Fire, "Attributes.Resistance.Fire", "Fire Resistance tag")
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Resistance_Arcane, "Attributes.Resistance.Arcane", "Arcane Resistance tag")
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Resistance_Lightning, "Attributes.Resistance.Lightning", "Lightning Resistance tag")
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Resistance_Physical, "Attributes.Resistance.Physical", "Physical Resistance tag")
-
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Meta_IncomingXP, "Attributes.Meta.IncomingXP", "Incoming XP tag")
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InputTag_LMB, "InputTag.LMB", "Input Tag for Left Mouse Button")
@@ -37,9 +32,19 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InputTag_Passive_2, "InputTag.Passive.2", "In
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Damage, "Damage", "Damage tag for set by caller use")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_DamageType_Fire, "DamageType.Fire", "Fire DamageType tag for set by caller use")
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_DamageType_Arcane, "DamageType.Arcane", "Arcane DamageType tag for set by caller use")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_DamageType_Lightning, "DamageType.Lightning", "Lightning DamageType tag for set by caller use")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_DamageType_Arcane, "DamageType.Arcane", "Arcane DamageType tag for set by caller use")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_DamageType_Physical, "DamageType.Physical", "Physical DamageType tag for set by caller use")
+
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Resistance_Fire, "Attributes.Resistance.Fire", "Fire Resistance tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Resistance_Lightning, "Attributes.Resistance.Lightning", "Lightning Resistance tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Resistance_Arcane, "Attributes.Resistance.Arcane", "Arcane Resistance tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Resistance_Physical, "Attributes.Resistance.Physical", "Physical Resistance tag")
+
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Debuff_Burn, "Debuff.Burn", "Burn Debuff tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Debuff_Stun, "Debuff.Stun", "Stun Debuff tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Debuff_Arcane, "Debuff.Arcane", "Arcane Debuff tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Debuff_Physical, "Debuff.Physical", "Physical Debuff tag")
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_None, "Abilities.None", "None Ability tag")
 

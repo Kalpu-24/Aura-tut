@@ -69,5 +69,8 @@ public:
 	UFUNCTION(BlueprintPure, Category="AuraABilitySystem|Gameplay Mechanics")
 	static bool IsNotFriend(AActor* FirstActor, AActor* SecondActor);
 
+	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|Gameplay Mechanics")
+	static TMap<FGameplayTag, FGameplayTag> GetDamageTypesToDebuffTags();
+
 	static int32 GetXPRewardForClassAndLevel(const UObject* WorldContext, ECharacterClass CharacterClass, int32 CharacterLevel);
 };

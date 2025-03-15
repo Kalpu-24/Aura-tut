@@ -206,3 +206,22 @@ bool UAuraAbilitySystemLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondAc
 	const bool bSecondIsPlayer = SecondActor->ActorHasTag(FName("Player"));
 	return bFirstIsPlayer != bSecondIsPlayer;
 }
+
+TMap<FGameplayTag, FGameplayTag> UAuraAbilitySystemLibrary::GetDamageTypesToDebuffTags()
+{
+	TMap<FGameplayTag, FGameplayTag> OutMap;
+	// Get the parent tag
+	const FGameplayTag DamageTypeParentTag = FGameplayTag::RequestGameplayTag(FName("DamageType"));
+	const FGameplayTag DebuffTypeParentTag = FGameplayTag::RequestGameplayTag(FName("Debuff"));
+
+	// Get the tag node from the hierarchy
+	TArray<TSharedPtr<FGameplayTagNode>> DamageTypeChildTagNodes = UGameplayTagsManager::Get().FindTagNode(DamageTypeParentTag)->GetChildTagNodes();
+	TArray<TSharedPtr<FGameplayTagNode>> DebuffTypeChildTagNodes = UGameplayTagsManager::Get().FindTagNode(DebuffTypeParentTag)->GetChildTagNodes();
+
+	for (int i = 0; i < DamageTypeChildTagNodes.Num(); i++)
+	{
+		OutMap.Add(DamageTypeChildTagNodes[i]->GetCompleteTag(), DebuffTypeChildTagNodes[i]->GetCompleteTag());
+	}
+
+	return OutMap;
+}

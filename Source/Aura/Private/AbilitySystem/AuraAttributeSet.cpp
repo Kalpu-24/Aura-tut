@@ -197,10 +197,15 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectPropertiesEnhanced& Pr
 
 		if (NewHealth <= 0.f)//bFatal
 		{
-			//TO DO: Handle Death Impulse
 			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetProperties->AvatarActor))
 			{
 				CombatInterface->Die();
+				const FVector DeathImpulse = UAuraAbilitySystemLibrary::GetDeathImpulse(Props.ContextHandle);
+				if (Props.TargetProperties->Character)
+				{
+					const float Mass = Props.TargetProperties->Character->GetMesh()->GetMass();
+					Props.TargetProperties->Character->GetMesh()->AddImpulse(DeathImpulse * Mass, NAME_None, true);
+				}
 			}
 			SendXPEvent(Props);
 		}
@@ -215,7 +220,17 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectPropertiesEnhanced& Pr
 		ShowFloatingText(Props, LocalIncomingDamage, bIsDamageHit, bIsCriticalHit);
 		if (UAuraAbilitySystemLibrary::IsSuccessfulDebuff(Props.ContextHandle))
 		{
-			HandleDebuff(Props);
+			FTimerHandle TimerHandle;
+			GetWorld()->GetTimerManager().SetTimer(
+				TimerHandle,
+				[this, Props]()
+				{
+					HandleDebuff(Props);
+				},
+				1.5f, 
+				false
+			);
+			// HandleDebuff(Props);
 		}
 	}
 }

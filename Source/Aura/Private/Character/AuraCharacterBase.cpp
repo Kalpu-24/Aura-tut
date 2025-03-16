@@ -42,7 +42,7 @@ void AAuraCharacterBase::Die()
 
 void AAuraCharacterBase::MulticlassHandleDeath_Implementation()
 {
-
+	BurnDebuffComponent->Deactivate();
 	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());
 	
 	Weapon->SetSimulatePhysics(true);
@@ -54,9 +54,9 @@ void AAuraCharacterBase::MulticlassHandleDeath_Implementation()
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic,ECR_Block);
+	OnDeathDelegate.Broadcast(this);
 	Dissolve();
 	bDead = true;
-	OnDeathDelegate.Broadcast(this);
 }
 
 void AAuraCharacterBase::BeginPlay(){

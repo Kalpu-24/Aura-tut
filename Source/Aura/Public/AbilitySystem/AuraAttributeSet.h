@@ -61,6 +61,7 @@ public:
 	UAuraAttributeSet();
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const override;
+	static void HandleDebuff(const FEffectPropertiesEnhanced& Props);
 	void HandleIncomingDamage(const FEffectPropertiesEnhanced& Props);
 	void HandleIncomingXP(const FEffectPropertiesEnhanced& Props);
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;

@@ -195,8 +195,9 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectPropertiesEnhanced& Pr
 		const float NewHealth = GetHealth() - LocalIncomingDamage;
 		SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
 
-		if (NewHealth <= 0.f)
+		if (NewHealth <= 0.f)//bFatal
 		{
+			//TO DO: Handle Death Impulse
 			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetProperties->AvatarActor))
 			{
 				CombatInterface->Die();

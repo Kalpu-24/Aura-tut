@@ -73,6 +73,9 @@ public:
 	UFUNCTION(BlueprintPure, Category="AuraABilitySystem|GameplayEffects")
 	static FVector GetDeathImpulse(const FGameplayEffectContextHandle& EffectContextHandle);
 
+	UFUNCTION(BlueprintPure, Category="AuraABilitySystem|GameplayEffects")
+	static FVector GetKnockbackVector(const FGameplayEffectContextHandle& EffectContextHandle);
+
 	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|GameplayEffects")
 	static void SetIsBlockedHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bIsInBlockedHit);
 	
@@ -96,6 +99,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|GameplayEffects")
 	static void SetDeathImpulse(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, const FVector& DeathImpulse);
+
+	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|GameplayEffects")
+	static void SetKnockbackVector(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, const FVector& KnockbackVector);
 
 	UFUNCTION(BlueprintPure, Category="AuraABilitySystem|GameplayTags")
 	static TMap<FGameplayTag, FGameplayTag> GetDamageToResistanceTags();

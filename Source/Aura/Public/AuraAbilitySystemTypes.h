@@ -10,44 +10,53 @@ struct FDamageEffectParams
 
 	FDamageEffectParams(){}
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UObject> WorldContextObject = nullptr;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	TSubclassOf<UGameplayEffect> DamageGameplayEffectClass = nullptr;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UAbilitySystemComponent> SourceAsc = nullptr;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UAbilitySystemComponent> TargetAsc = nullptr;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	float BaseDamge = 0.f;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	float AbilityLevel = 1.f;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	FGameplayTag DamageType = FGameplayTag();
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	float DebuffChance = 0.f;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	float DebuffDamage = 0.f;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	float DebuffFrequency = 0.f;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	float DebuffDuration = 0.f;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	float DeathImpulseMagnitude = 0.f;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	FVector	DeathImpulse = FVector::ZeroVector;
+
+	UPROPERTY(BlueprintReadWrite)
+	float KnockbackForce = 0.f;
+
+	UPROPERTY(BlueprintReadWrite)
+	FVector	KnockbackVector = FVector::ZeroVector;
+
+	UPROPERTY(BlueprintReadWrite)
+	float KnockbackChance = 0.f;
 };
 
 USTRUCT(BlueprintType)
@@ -79,6 +88,9 @@ public:
 
 	void SetDeathImpulse(const FVector& InDeathImpulse) {this->DeathImpulse = InDeathImpulse;}
 	FVector GetDeathImpulse() const {return DeathImpulse;}
+
+	void SetKnockbackVector(const FVector& InKnockbackVector) {this->KnockbackVector = InKnockbackVector;}
+	FVector GetKnockbackVector() const {return KnockbackVector;}
 	
 	virtual UScriptStruct* GetScriptStruct() const override {return StaticStruct();}
 	virtual FAuraGameplayEffectContext* Duplicate() const override
@@ -117,6 +129,9 @@ protected:
 
 	UPROPERTY()
 	FVector DeathImpulse = FVector::ZeroVector;
+
+	UPROPERTY()
+	FVector KnockbackVector = FVector::ZeroVector;
 };
 
 template<>

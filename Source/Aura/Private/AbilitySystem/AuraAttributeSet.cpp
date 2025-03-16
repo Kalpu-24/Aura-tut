@@ -214,6 +214,12 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectPropertiesEnhanced& Pr
 			FGameplayTagContainer TagContainer;
 			TagContainer.AddTag(TAG_Effect_HitReact);
 			Props.TargetProperties->AbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
+
+			const FVector& KnockbackVector = UAuraAbilitySystemLibrary::GetKnockbackVector(Props.ContextHandle);
+			if (!KnockbackVector.IsNearlyZero(1.f))
+			{
+				Props.TargetProperties->Character->LaunchCharacter(KnockbackVector, true, true);
+			}
 		}
 		const bool bIsDamageHit = UAuraAbilitySystemLibrary::IsBlockedHit(Props.ContextHandle);
 		const bool bIsCriticalHit = UAuraAbilitySystemLibrary::IsCriticalHit(Props.ContextHandle);

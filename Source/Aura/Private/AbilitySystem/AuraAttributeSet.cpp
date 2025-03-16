@@ -132,6 +132,71 @@ void UAuraAttributeSet::PreAttributeBaseChange(const FGameplayAttribute& Attribu
 	}
 }
 
+void UAuraAttributeSet::HandleIncomingDamage(const FEffectPropertiesEnhanced& Props)
+{
+	const float LocalIncomingDamage = GetIncomingDamage();
+	SetIncomingDamage(0.f);
+	if (LocalIncomingDamage > 0.f)
+	{
+		const float NewHealth = GetHealth() - LocalIncomingDamage;
+		SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
+
+		if (NewHealth <= 0.f)
+		{
+			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetProperties->AvatarActor))
+			{
+				CombatInterface->Die();
+			}
+			SendXPEvent(Props);
+		}
+		else
+		{
+			FGameplayTagContainer TagContainer;
+			TagContainer.AddTag(TAG_Effect_HitReact);
+			Props.TargetProperties->AbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
+		}
+		const bool bIsDamageHit = UAuraAbilitySystemLibrary::IsBlockedHit(Props.ContextHandle);
+		const bool bIsCriticalHit = UAuraAbilitySystemLibrary::IsCriticalHit(Props.ContextHandle);
+		ShowFloatingText(Props, LocalIncomingDamage, bIsDamageHit, bIsCriticalHit);
+		if (UAuraAbilitySystemLibrary::IsSuccessfulDebuff(Props.ContextHandle))
+		{
+			//Handle Debuff
+		}
+	}
+}
+
+void UAuraAttributeSet::HandleIncomingXP(const FEffectPropertiesEnhanced& Props)
+{
+	const float LocalIncomingXP = GetIncomingXP();
+	SetIncomingXP(0.f);
+
+	if (Props.SourceProperties->Character->Implements<UPlayerInterface>() && Props.SourceProperties->Character->Implements<UCombatInterface>())
+	{
+		const int32 CurrentLevel = ICombatInterface::Execute_GetPlayerLevel(Props.SourceProperties->Character);
+		const int32 CurrentXP = IPlayerInterface::Execute_GetXP(Props.SourceProperties->Character);
+
+		const int32 NewLevel = IPlayerInterface::Execute_FindLevelForXP(Props.SourceProperties->Character, CurrentXP + LocalIncomingXP);
+
+		if (const int32 NumOfLevelUps = NewLevel - CurrentLevel; NumOfLevelUps > 0)
+		{
+			const int32 AttributePointsReward = IPlayerInterface::Execute_GetAttributePointsReward(Props.SourceProperties->Character, CurrentLevel);
+			const int32 SpellPointsReward = IPlayerInterface::Execute_GetSpellPointsReward(Props.SourceProperties->Character, CurrentLevel);
+
+			IPlayerInterface::Execute_AddToPlayerLevel(Props.SourceProperties->Character, NumOfLevelUps);
+				
+			IPlayerInterface::Execute_AddToAttributePoints(Props.SourceProperties->Character, AttributePointsReward);
+			IPlayerInterface::Execute_AddToSpellPoints(Props.SourceProperties->Character, SpellPointsReward);
+
+			bTopOffHealth = true;
+			bTopOffMana = true;
+				
+			IPlayerInterface::Execute_LevelUp(Props.SourceProperties->Character);
+		}
+			
+		IPlayerInterface::Execute_AddToXP(Props.SourceProperties->Character, LocalIncomingXP);
+	}
+}
+
 void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
@@ -148,65 +213,11 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	}
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
 	{
-		const float LocalIncomingDamage = GetIncomingDamage();
-		SetIncomingDamage(0.f);
-		if (LocalIncomingDamage > 0.f)
-		{
-			const float NewHealth = GetHealth() - LocalIncomingDamage;
-			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
-
-			const bool bFatal = NewHealth <= 0.f;
-			if (bFatal)
-			{
-				ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetProperties->AvatarActor);
-				if (CombatInterface)
-				{
-					CombatInterface->Die();
-				}
-				SendXPEvent(Props);
-			}
-			else
-			{
-				FGameplayTagContainer TagContainer;
-				TagContainer.AddTag(TAG_Effect_HitReact);
-				Props.TargetProperties->AbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
-			}
-			const bool bIsDamageHit = UAuraAbilitySystemLibrary::IsBlockedHit(Props.ContextHandle);
-			const bool bIsCriticalHit = UAuraAbilitySystemLibrary::IsCriticalHit(Props.ContextHandle);
-			ShowFloatingText(Props, LocalIncomingDamage, bIsDamageHit, bIsCriticalHit);
-		}
+		HandleIncomingDamage(Props);
 	}
 	if (Data.EvaluatedData.Attribute == GetIncomingXPAttribute())
 	{
-		const float LocalIncomingXP = GetIncomingXP();
-		SetIncomingXP(0.f);
-
-		if (Props.SourceProperties->Character->Implements<UPlayerInterface>() && Props.SourceProperties->Character->Implements<UCombatInterface>())
-		{
-			const int32 CurrentLevel = ICombatInterface::Execute_GetPlayerLevel(Props.SourceProperties->Character);
-			const int32 CurrentXP = IPlayerInterface::Execute_GetXP(Props.SourceProperties->Character);
-
-			const int32 NewLevel = IPlayerInterface::Execute_FindLevelForXP(Props.SourceProperties->Character, CurrentXP + LocalIncomingXP);
-			const int32 NumOfLevelUps = NewLevel - CurrentLevel;
-
-			if (NumOfLevelUps > 0)
-			{
-				const int32 AttributePointsReward = IPlayerInterface::Execute_GetAttributePointsReward(Props.SourceProperties->Character, CurrentLevel);
-				const int32 SpellPointsReward = IPlayerInterface::Execute_GetSpellPointsReward(Props.SourceProperties->Character, CurrentLevel);
-
-				IPlayerInterface::Execute_AddToPlayerLevel(Props.SourceProperties->Character, NumOfLevelUps);
-				
-				IPlayerInterface::Execute_AddToAttributePoints(Props.SourceProperties->Character, AttributePointsReward);
-				IPlayerInterface::Execute_AddToSpellPoints(Props.SourceProperties->Character, SpellPointsReward);
-
-				bTopOffHealth = true;
-				bTopOffMana = true;
-				
-				IPlayerInterface::Execute_LevelUp(Props.SourceProperties->Character);
-			}
-			
-			IPlayerInterface::Execute_AddToXP(Props.SourceProperties->Character, LocalIncomingXP);
-		}
+		HandleIncomingXP(Props);
 	}
 }
 

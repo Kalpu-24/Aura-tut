@@ -76,6 +76,21 @@ public:
 	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|GameplayEffects")
 	static void SetIsCriticalHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bIsInCriticalHit);
 
+	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|GameplayEffects")
+	static void SetIsSuccessfulDebuff(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle,  bool bIsInCriticalHit);
+
+	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|GameplayEffects")
+	static void SetDebuffDamage(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, float DebuffDamage);
+
+	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|GameplayEffects")
+	static void SetDebuffDuration(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, float DebuffDuration);
+
+	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|GameplayEffects")
+	static void SetDebuffFrequency(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, float DebuffFrequency);
+
+	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|GameplayEffects")
+	static void SetDamageType(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, const FGameplayTag& DamageType);
+
 	UFUNCTION(BlueprintPure, Category="AuraABilitySystem|GameplayTags")
 	static TMap<FGameplayTag, FGameplayTag> GetDamageToResistanceTags();
 

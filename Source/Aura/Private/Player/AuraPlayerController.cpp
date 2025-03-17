@@ -8,6 +8,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "NavigationPath.h"
 #include "NavigationSystem.h"
+#include "NiagaraFunctionLibrary.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -159,9 +160,10 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 				if (!NavigationPath->PathPoints.IsEmpty())
 				{
 					CachedDestination = NavigationPath->PathPoints.Last();
+					bAutoRunning = true;
 				}
-				bAutoRunning = true;
 			}
+			UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystrem, CachedDestination);
 		}
 		bTargeting = false;
 		FollowTime = 0.f;

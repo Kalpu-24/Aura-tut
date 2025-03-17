@@ -20,7 +20,7 @@ protected:
 	TSubclassOf<AAuraProjectile> ProjectileClass;
 
 	UFUNCTION(BlueprintCallable)
-	void SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag);
+	void SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag, bool bPitchOverride, float PitchOverride);
 
 	UPROPERTY(EditDefaultsOnly)
 	int32 NumProjectiles = 5;

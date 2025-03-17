@@ -8,28 +8,31 @@
 #include "Actor/AuraProjectile.h"
 #include "Interaction/CombatInterface.h"
 
-void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag)
+void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag, const bool bPitchOverride, const float PitchOverride)
 {
 	if (const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority(); !bIsServer) return;
-
-
-		const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), SocketTag);
-		const FRotator Rotator = (ProjectileTargetLocation - GetAvatarActorFromActorInfo()->GetActorLocation()).Rotation();
+	
+	const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), SocketTag);
+	FRotator Rotator = (ProjectileTargetLocation - SocketLocation).Rotation();
+	if (bPitchOverride)
+	{
+		Rotator.Pitch = PitchOverride;
+	}
 		
-		FTransform SpawnTransform;
-		SpawnTransform.SetLocation(SocketLocation);
-		SpawnTransform.SetRotation(Rotator.Quaternion());
+	FTransform SpawnTransform;
+	SpawnTransform.SetLocation(SocketLocation);
+	SpawnTransform.SetRotation(Rotator.Quaternion());
 		
-		AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(
-			ProjectileClass,
-			SpawnTransform,
-			GetOwningActorFromActorInfo(),
-			Cast<APawn>(GetAvatarActorFromActorInfo()),
-			ESpawnActorCollisionHandlingMethod::AlwaysSpawn
-		);
+	AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(
+		ProjectileClass,
+		SpawnTransform,
+		GetOwningActorFromActorInfo(),
+		Cast<APawn>(GetAvatarActorFromActorInfo()),
+		ESpawnActorCollisionHandlingMethod::AlwaysSpawn
+	);
 
-		Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
+	Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
 
-		Projectile->FinishSpawning(SpawnTransform);
+	Projectile->FinishSpawning(SpawnTransform);
 	
 }

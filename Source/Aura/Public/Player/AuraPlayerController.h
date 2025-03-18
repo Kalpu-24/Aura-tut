@@ -143,6 +143,7 @@ private:
 	bool OnHideOccludedActor(const FCameraOccludedActor& OccludedActor) const;
 	void ShowOccludedActor(FCameraOccludedActor& OccludedActor);
 	bool OnShowOccludedActor(const FCameraOccludedActor& OccludedActor) const;
+	void HandleCollision(TArray<FHitResult> OutHits);
 	void ForceShowOccludedActors();
  
 	__forceinline bool ShouldCheckCameraOcclusion() const

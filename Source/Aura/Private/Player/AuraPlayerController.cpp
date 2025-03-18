@@ -10,6 +10,7 @@
 #include "NavigationSystem.h"
 #include "NiagaraFunctionLibrary.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Aura/Aura.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SplineComponent.h"
@@ -252,7 +253,7 @@ void AAuraPlayerController::SyncOccludedActors()
  
   TArray<AActor*> ActorsToIgnore; 
   TArray<FHitResult> OutHits;
- 
+	
   auto ShouldDebug = DebugLineTraces ? EDrawDebugTrace::ForDuration : EDrawDebugTrace::None;
  
   bool bGotHits = UKismetSystemLibrary::CapsuleTraceMultiForObjects(
@@ -261,14 +262,32 @@ void AAuraPlayerController::SyncOccludedActors()
     ActorsToIgnore,
     ShouldDebug,
     OutHits, true);
+
+	TArray<FHitResult> Hits;
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActors(ActorsToIgnore);
+
+	bool bOverlap = GetWorld()->SweepMultiByChannel(
+		Hits,
+		ActiveCamera->GetComponentLocation(), // Start
+		ActiveCamera->GetComponentLocation(), // End (same as start = overlap check)
+		FQuat::Identity,
+		ECC_WorldStatic,
+		FCollisionShape::MakeSphere(50.f), // Adjust radius as needed
+		Params
+	);
+
+	TArray<FHitResult> MergedHits;
+	MergedHits.Append(OutHits);
+	MergedHits.Append(Hits);
  
-  if (bGotHits)
+  if (bGotHits || bOverlap)
   {
     // The list of actors hit by the line trace, that means that they are occluded from view
     TSet<const AActor*> ActorsJustOccluded;
  
     // Hide actors that are occluded by the camera
-    for (FHitResult Hit : OutHits)
+    for (FHitResult Hit : MergedHits)
     {
       const AActor* HitActor = Cast<AActor>(Hit.GetActor());
       HideOccludedActor(HitActor);
@@ -364,7 +383,9 @@ bool AAuraPlayerController::OnShowOccludedActor(const FCameraOccludedActor& Occl
   {
     OccludedActor.StaticMesh->SetMaterial(matIdx, OccludedActor.Materials[matIdx]);
   }
- 
+	//set the mesh to block visibility and target channel
+	  OccludedActor.StaticMesh->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+	  OccludedActor.StaticMesh->SetCollisionResponseToChannel(ECC_Target, ECR_Block);
   return true;
 }
  
@@ -374,6 +395,10 @@ bool AAuraPlayerController::OnHideOccludedActor(const FCameraOccludedActor& Occl
   {
     OccludedActor.StaticMesh->SetMaterial(i, FadeMaterial);
   }
+
+	//set the mesh to block visibility and target channel
+	  OccludedActor.StaticMesh->SetCollisionResponseToChannel(ECC_Visibility, ECR_Ignore);
+	  OccludedActor.StaticMesh->SetCollisionResponseToChannel(ECC_Target, ECR_Ignore);
  
   return true;
 }

@@ -86,6 +86,7 @@ void AAuraPlayerController::SetupInputComponent()
 
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 {
+	if (GetAsc() && GetAsc()->HasMatchingGameplayTag(TAG_Player_Block_InputPressed)) return;
 	const FVector2d InputAxisVector = InputActionValue.Get<FVector2d>();
 	const FRotator Rotation = GetControlRotation();
 	const FRotator YawRotation(0.f, Rotation.Yaw, 0.f);
@@ -102,6 +103,13 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 
 void AAuraPlayerController::CursorTrace()
 {
+	if (GetAsc() && GetAsc()->HasMatchingGameplayTag(TAG_Player_Block_CursorTrace))
+	{
+		if (LastActor) LastActor->UnHighlightActor();
+		if (ThisActor) ThisActor->UnHighlightActor();
+		LastActor = ThisActor = nullptr;
+		return;
+	}
 	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
 	if (!CursorHit.bBlockingHit) return;
 
@@ -130,6 +138,7 @@ void AAuraPlayerController::CursorTrace()
 
 void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
+	if (GetAsc() && GetAsc()->HasMatchingGameplayTag(TAG_Player_Block_InputPressed)) return;
 	if (InputTag.MatchesTagExact(TAG_InputTag_LMB))
 	{
 		bTargeting = ThisActor ? true : false;
@@ -140,6 +149,7 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
+	if (GetAsc() && GetAsc()->HasMatchingGameplayTag(TAG_Player_Block_InputReleased)) return;
 	if (!InputTag.MatchesTagExact(TAG_InputTag_LMB))
 	{
 		if (GetAsc()) GetAsc()->AbilityInputTagReleased(InputTag);
@@ -164,7 +174,10 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 					bAutoRunning = true;
 				}
 			}
-			UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystrem, CachedDestination);
+			if (GetAsc() && !GetAsc()->HasMatchingGameplayTag(TAG_Player_Block_InputPressed))
+			{
+				UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystrem, CachedDestination);
+			}
 		}
 		bTargeting = false;
 		FollowTime = 0.f;
@@ -173,6 +186,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
+	if (GetAsc() && GetAsc()->HasMatchingGameplayTag(TAG_Player_Block_InputHeld)) return;
 	if (!InputTag.MatchesTagExact(TAG_InputTag_LMB))
 	{
 		if (GetAsc()) GetAsc()->AbilityInputTagHeld(InputTag);

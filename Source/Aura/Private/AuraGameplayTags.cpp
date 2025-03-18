@@ -83,3 +83,8 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_CombatSocket_LeftHand, "CombatSocket.LeftHand
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_CombatSocket_Tail, "CombatSocket.Tail", "Montage Attack Tail tag")
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Effect_HitReact, "Effect.HitReact", "Tag for Hit React Effect")
+
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Player_Block_InputPressed, "Player.Block.InputPressed", "Tag for Player Block Input Pressed")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Player_Block_InputReleased, "Player.Block.InputReleased", "Tag for Player Block Input Released")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Player_Block_InputHeld, "Player.Block.InputHeld", "Tag for Player Block Input Held")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Player_Block_CursorTrace, "Player.Block.CursorTrace", "Tag for Player Block Cursor Trace")

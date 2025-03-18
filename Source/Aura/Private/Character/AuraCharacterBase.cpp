@@ -141,6 +141,11 @@ FOnDeath AAuraCharacterBase::GetOnDeathDelegate()
 	return OnDeathDelegate;
 }
 
+USkeletalMeshComponent* AAuraCharacterBase::GetWeapon_Implementation()
+{
+	return Weapon;
+}
+
 void AAuraCharacterBase::ApplyEffectToSelf(const TSubclassOf<UGameplayEffect>& Effect, const float Level) const
 {
 	check(IsValid(GetAbilitySystemComponent()));

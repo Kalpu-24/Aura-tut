@@ -29,6 +29,8 @@ public:
 	TObjectPtr<USceneComponent> HomingTargetSceneComponent;
 
 protected:
+	UFUNCTION()
+	void OnHomingTargetDeath(AActor* DeadActor);
 	virtual void BeginPlay() override;
 	void OnHit();
 

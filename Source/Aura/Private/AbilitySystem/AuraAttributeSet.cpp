@@ -156,13 +156,19 @@ void UAuraAttributeSet::HandleDebuff(const FEffectPropertiesEnhanced& Props)
 
 	UTargetTagsGameplayEffectComponent& TargetTagsComponent = Effect->FindOrAddComponent<UTargetTagsGameplayEffectComponent>();
 	FInheritedTagContainer InheritedTags;
-	InheritedTags.Added.AddTag(DamageTypeToDebuffTagMap[DamageTypeTag]);
-	TargetTagsComponent.SetAndApplyTargetTagChanges(InheritedTags);
+	const FGameplayTag DebuffTag = DamageTypeToDebuffTagMap[DamageTypeTag];
+	InheritedTags.Added.AddTag(DebuffTag);
 
-	for (auto Name : Effect->GetGrantedTags())
+
+	if (DebuffTag.MatchesTagExact(TAG_Debuff_Stun))
 	{
-		UE_LOG(LogAura, Log, TEXT("Granted Tag: %s"), *Name.ToString());
+		InheritedTags.Added.AddTag(TAG_Player_Block_CursorTrace);
+		InheritedTags.Added.AddTag(TAG_Player_Block_InputHeld);
+		InheritedTags.Added.AddTag(TAG_Player_Block_InputReleased);
+		InheritedTags.Added.AddTag(TAG_Player_Block_InputPressed);
 	}
+	
+	TargetTagsComponent.SetAndApplyTargetTagChanges(InheritedTags);
 
 	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
 	Effect->StackLimitCount = 1;

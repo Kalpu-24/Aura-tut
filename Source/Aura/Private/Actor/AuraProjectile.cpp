@@ -12,6 +12,7 @@
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Aura/Aura.h"
 #include "Components/AudioComponent.h"
+#include "Interaction/CombatInterface.h"
 
 AAuraProjectile::AAuraProjectile()
 {
@@ -33,6 +34,11 @@ AAuraProjectile::AAuraProjectile()
 	ProjectileMovementComponent->ProjectileGravityScale = 0.0f;
 }
 
+void AAuraProjectile::OnHomingTargetDeath(AActor* DeadActor)
+{
+	ProjectileMovementComponent->bIsHomingProjectile = false;
+}
+
 void AAuraProjectile::BeginPlay()
 {
 	Super::BeginPlay();
@@ -42,6 +48,14 @@ void AAuraProjectile::BeginPlay()
 
 	LoopingSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopingSound, GetRootComponent());
 	if (LoopingSoundComponent)	LoopingSoundComponent->bStopWhenOwnerDestroyed = true;
+	
+	if (HasAuthority() && ProjectileMovementComponent->HomingTargetComponent.IsValid())
+	{
+		if (ICombatInterface* HomingTargetCombatInterface = Cast<ICombatInterface>(ProjectileMovementComponent->HomingTargetComponent->GetOwner()))
+		{
+			HomingTargetCombatInterface->GetOnDeath().AddUniqueDynamic(this, &ThisClass::OnHomingTargetDeath);
+		}
+	}
 }
 
 void AAuraProjectile::OnHit()

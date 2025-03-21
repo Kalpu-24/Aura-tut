@@ -8,7 +8,9 @@
 #include "AbilitySystem/Debuff/DebuffNiagaraComponent.h"
 #include "Aura/Aura.h"
 #include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Net/UnrealNetwork.h"
 
 AAuraCharacterBase::AAuraCharacterBase(){
 	PrimaryActorTick.bCanEverTick = false;
@@ -23,6 +25,12 @@ AAuraCharacterBase::AAuraCharacterBase(){
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>(FName("Weapon"));
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponSocket"));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+void AAuraCharacterBase::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AAuraCharacterBase, bIsStunned);
 }
 
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const{
@@ -57,6 +65,17 @@ void AAuraCharacterBase::MulticlassHandleDeath_Implementation()
 	OnDeathDelegate.Broadcast(this);
 	Dissolve();
 	bDead = true;
+}
+
+void AAuraCharacterBase::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	bIsStunned = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bIsStunned? 0.f : BaseWalkSpeed;
+}
+
+void AAuraCharacterBase::OnRep_Stun()
+{
+	
 }
 
 void AAuraCharacterBase::BeginPlay(){
@@ -149,6 +168,10 @@ FOnDeath& AAuraCharacterBase::GetOnDeath()
 USkeletalMeshComponent* AAuraCharacterBase::GetWeapon_Implementation()
 {
 	return Weapon;
+}
+
+void AAuraCharacterBase::InitAbilityActorInfo()
+{
 }
 
 void AAuraCharacterBase::ApplyEffectToSelf(const TSubclassOf<UGameplayEffect>& Effect, const float Level) const

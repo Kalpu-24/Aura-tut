@@ -18,6 +18,10 @@ AAuraCharacterBase::AAuraCharacterBase(){
 	BurnDebuffComponent = CreateDefaultSubobject<UDebuffNiagaraComponent>(TEXT("BurnDebuffComponent"));
 	BurnDebuffComponent->SetupAttachment(GetRootComponent());
 	BurnDebuffComponent->DebuffTag = TAG_Debuff_Burn;
+
+	StunDebuffComponent = CreateDefaultSubobject<UDebuffNiagaraComponent>(TEXT("StunDebuffComponent"));
+	StunDebuffComponent->SetupAttachment(GetRootComponent());
+	StunDebuffComponent->DebuffTag = TAG_Debuff_Stun;
 	
 	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
 	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
@@ -31,6 +35,7 @@ void AAuraCharacterBase::GetLifetimeReplicatedProps(TArray<class FLifetimeProper
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AAuraCharacterBase, bIsStunned);
+	DOREPLIFETIME(AAuraCharacterBase, bIsBurned);
 }
 
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const{
@@ -57,6 +62,8 @@ void AAuraCharacterBase::MulticlassHandleDeath_Implementation()
 	Weapon->SetEnableGravity(true);
 	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 
+	BurnDebuffComponent->Deactivate();
+	StunDebuffComponent->Deactivate();
 	GetMesh()->SetEnableGravity(true);
 	GetMesh()->SetSimulatePhysics(true);
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -76,6 +83,10 @@ void AAuraCharacterBase::StunTagChanged(const FGameplayTag CallbackTag, int32 Ne
 void AAuraCharacterBase::OnRep_Stun()
 {
 	
+}
+
+void AAuraCharacterBase::OnRep_Burn()
+{
 }
 
 void AAuraCharacterBase::BeginPlay(){
@@ -150,7 +161,7 @@ ECharacterClass AAuraCharacterBase::GetCharacterClass_Implementation() const
 	return CharacterClass;
 }
 
-FOnAscRegistered AAuraCharacterBase::GetOnAscRegistered()
+FOnAscRegistered& AAuraCharacterBase::GetOnAscRegistered()
 {
 	return OnAscRegistered;
 }

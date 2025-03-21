@@ -7,6 +7,7 @@
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/Data/LevelUpInfo.h"
+#include "AbilitySystem/Debuff/DebuffNiagaraComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -144,11 +145,25 @@ void AAuraCharacter::OnRep_Stun()
 		if (bIsStunned)
 		{
 			AuraAsc->AddLooseGameplayTags(BlockedTags);
+			StunDebuffComponent->Activate();
 		}
 		else
 		{
 			AuraAsc->RemoveLooseGameplayTags(BlockedTags);
+			StunDebuffComponent->Deactivate();
 		}
+	}
+}
+
+void AAuraCharacter::OnRep_Burn()
+{
+	if (bIsBurned)
+	{
+		BurnDebuffComponent->Activate();
+	}
+	else
+	{
+		BurnDebuffComponent->Deactivate();
 	}
 }
 

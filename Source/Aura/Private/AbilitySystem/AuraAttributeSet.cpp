@@ -8,7 +8,6 @@
 #include "AuraGameplayTags.h"
 #include "GameplayEffectExtension.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
-#include "Aura/AuraLogChannels.h"
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
 #include "Interaction/PlayerInterface.h"
@@ -81,7 +80,7 @@ inline void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallb
 	}
 }
 
-void UAuraAttributeSet::ShowFloatingText(const FEffectPropertiesEnhanced& Props, const float Damage, const bool bIsBlockedHit, const bool bIsCriticalHit) const
+void UAuraAttributeSet::ShowFloatingText(const FEffectPropertiesEnhanced& Props, const float Damage, const bool bIsBlockedHit, const bool bIsCriticalHit)
 {
 	if (Props.SourceProperties->Character != Props.TargetProperties->Character)
 	{
@@ -173,8 +172,7 @@ void UAuraAttributeSet::HandleDebuff(const FEffectPropertiesEnhanced& Props)
 	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
 	Effect->StackLimitCount = 1;
 
-	int32 Index = Effect->Modifiers.Num();
-	Index = Effect->Modifiers.Add(FGameplayModifierInfo());
+	const int32 Index = Effect->Modifiers.Add(FGameplayModifierInfo());
 	FGameplayModifierInfo& ModifierInfo = Effect->Modifiers[Index];
 
 	ModifierInfo.ModifierMagnitude = FScalableFloat(DebuffDamage);
@@ -217,9 +215,13 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectPropertiesEnhanced& Pr
 		}
 		else
 		{
-			FGameplayTagContainer TagContainer;
-			TagContainer.AddTag(TAG_Effect_HitReact);
-			Props.TargetProperties->AbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
+			if (Props.TargetProperties->Character->Implements<UCombatInterface>() && !ICombatInterface::Execute_IsBeingShocked(Props.TargetProperties->Character))
+			{
+				FGameplayTagContainer TagContainer;
+				TagContainer.AddTag(TAG_Effect_HitReact);
+				Props.TargetProperties->AbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
+			}
+			
 
 			const FVector& KnockbackVector = UAuraAbilitySystemLibrary::GetKnockbackVector(Props.ContextHandle);
 			if (!KnockbackVector.IsNearlyZero(1.f))
@@ -239,7 +241,7 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectPropertiesEnhanced& Pr
 				{
 					HandleDebuff(Props);
 				},
-				1.5f, 
+				0.5f, 
 				false
 			);
 			// HandleDebuff(Props);

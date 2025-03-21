@@ -233,8 +233,8 @@ public:
 
 private:
 	static void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectPropertiesEnhanced& Props);
-	void ShowFloatingText(const FEffectPropertiesEnhanced& Props, float Damage, bool bIsBlockedHit, bool bIsCriticalHit) const;
-	void SendXPEvent(const FEffectPropertiesEnhanced& Props);
+	static void ShowFloatingText(const FEffectPropertiesEnhanced& Props, float Damage, bool bIsBlockedHit, bool bIsCriticalHit);
+	static void SendXPEvent(const FEffectPropertiesEnhanced& Props);
 	bool bTopOffHealth = false;
 	bool bTopOffMana = false;
 };

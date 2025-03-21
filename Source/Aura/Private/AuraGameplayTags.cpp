@@ -70,6 +70,10 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Types_None, "Abilities.Types.None",
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Fire_Firebolt, "Abilities.Fire.Firebolt", "Firebolt Ability tag")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Lightning_Electrocute, "Abilities.Lightning.Electrocute", "Electrocute Ability tag")
 
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Passive_HaloOfProtection, "Abilities.Passive.HaloOfProtection", "Halo of Protection Ability tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Passive_LifeSiphon, "Abilities.Passive.LifeSiphon", "Life Siphon Ability tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Passive_ManaSiphon, "Abilities.Passive.ManaSiphon", "Mana Siphon Ability tag")
+
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Cooldown_Fire_Firebolt, "Cooldown.Fire.Firebolt", "Firebolt Cooldown tag")
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Montage_Attack_1, "Montage.Attack.1", "Montage Attack 1 tag")

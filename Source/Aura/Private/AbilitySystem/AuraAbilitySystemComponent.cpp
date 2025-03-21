@@ -196,6 +196,12 @@ void UAuraAbilitySystemComponent::AssignSlotToAbility(FGameplayAbilitySpec& Abil
 	AbilitySpec.GetDynamicSpecSourceTags().AddTag(SlotTag);
 }
 
+void UAuraAbilitySystemComponent::MulticastActivatePassiveEffect_Implementation(const FGameplayTag& AbilityTag,
+	bool bActivate)
+{
+	ActivatePassiveEffect.Broadcast(AbilityTag, bActivate);
+}
+
 FGameplayAbilitySpec* UAuraAbilitySystemComponent::GetSpecFromAbilityTag(const FGameplayTag& AbilityTag)
 {
 	FScopedAbilityListLock ActiveScopeLock(*this);
@@ -278,6 +284,7 @@ void UAuraAbilitySystemComponent::ServerEquipAbility_Implementation(const FGamep
 				//is passive?
 				if (IsPassiveAbility(*SpecWithSlot))
 				{
+					MulticastActivatePassiveEffect(GetAbilityTagFromAbilitySpec(*SpecWithSlot), false);
 					DeactivatePassiveAbility.Broadcast(GetAbilityTagFromAbilitySpec(*SpecWithSlot));
 				}
 				ClearSlot(SpecWithSlot);
@@ -288,6 +295,7 @@ void UAuraAbilitySystemComponent::ServerEquipAbility_Implementation(const FGamep
 				if (IsPassiveAbility(*AbilitySpec))
 				{
 					TryActivateAbility(AbilitySpec->Handle);
+					MulticastActivatePassiveEffect(GetAbilityTagFromAbilitySpec(*AbilitySpec), true);
 				}
 			}
 

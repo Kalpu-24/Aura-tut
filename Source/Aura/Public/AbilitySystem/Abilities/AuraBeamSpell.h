@@ -26,6 +26,18 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTarget);
+
+	UFUNCTION(BlueprintCallable)
+	void RemoveOnDeathBindingFromPrimaryTarget();
+
+	UFUNCTION(BlueprintCallable)
+	void RemoveOnDeathBindingFromAdditionalTarget(AActor* AdditionalTarget);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void PrimaryTargetDied(AActor* DeadActor);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void AdditionalyTargetDied(AActor* DeadActor);
 protected:
 
 	UPROPERTY(BlueprintReadWrite, Category = "Beam")

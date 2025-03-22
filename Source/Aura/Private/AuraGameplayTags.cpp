@@ -69,6 +69,7 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Types_None, "Abilities.Types.None",
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Fire_Firebolt, "Abilities.Fire.Firebolt", "Firebolt Ability tag")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Lightning_Electrocute, "Abilities.Lightning.Electrocute", "Electrocute Ability tag")
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Arcane_ArcaneShards, "Abilities.Arcane.ArcaneShards", "Arcane Shards Ability tag")
 
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Passive_HaloOfProtection, "Abilities.Passive.HaloOfProtection", "Halo of Protection Ability tag")
 UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Abilities_Passive_LifeSiphon, "Abilities.Passive.LifeSiphon", "Life Siphon Ability tag")

@@ -256,11 +256,19 @@ void AAuraPlayerController::AutoRun()
 	}
 }
 
-void AAuraPlayerController::UpdateMagicCircleLocation()
+void AAuraPlayerController::UpdateMagicCircleLocation() const
 {
 	if (IsValid(MagicCircle))
 	{
-		MagicCircle->SetActorLocation(CursorHit.ImpactPoint);
+		if (CursorHit.bBlockingHit)
+		{
+			MagicCircle->SetActorHiddenInGame(false);
+			MagicCircle->SetActorLocation(CursorHit.ImpactPoint);
+		}
+		else
+		{
+			MagicCircle->SetActorHiddenInGame(true);
+		}
 	}
 }
 
@@ -408,7 +416,7 @@ void AAuraPlayerController::ShowOccludedActor(FCameraOccludedActor& OccludedActo
   OnShowOccludedActor(OccludedActor);
 }
  
-bool AAuraPlayerController::OnShowOccludedActor(const FCameraOccludedActor& OccludedActor) const
+bool AAuraPlayerController::OnShowOccludedActor(const FCameraOccludedActor& OccludedActor)
 {
   for (int matIdx = 0; matIdx < OccludedActor.Materials.Num(); ++matIdx)
   {

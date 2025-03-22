@@ -149,7 +149,7 @@ private:
 	UPROPERTY()
 	TObjectPtr<AMagicCircle> MagicCircle;
 
-	void UpdateMagicCircleLocation();
+	void UpdateMagicCircleLocation() const;
 	
 	UPROPERTY()
 	TMap<const AActor*, FCameraOccludedActor> OccludedActors;
@@ -157,7 +157,7 @@ private:
 	bool HideOccludedActor(const AActor* Actor);
 	bool OnHideOccludedActor(const FCameraOccludedActor& OccludedActor) const;
 	void ShowOccludedActor(FCameraOccludedActor& OccludedActor);
-	bool OnShowOccludedActor(const FCameraOccludedActor& OccludedActor) const;
+	static bool OnShowOccludedActor(const FCameraOccludedActor& OccludedActor);
 	void HandleCollision(TArray<FHitResult> OutHits);
 	void ForceShowOccludedActors();
  

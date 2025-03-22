@@ -57,6 +57,18 @@ struct FDamageEffectParams
 
 	UPROPERTY(BlueprintReadWrite)
 	float KnockbackChance = 0.f;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsRadialDamage = false;
+
+	UPROPERTY(BlueprintReadWrite)
+	float RadialDamageInnerRadius = 0.f;
+
+	UPROPERTY(BlueprintReadWrite)
+	float RadialDamageOuterRadius = 0.f;
+
+	UPROPERTY(BlueprintReadWrite)
+	FVector RadialDamageOrigin = FVector::ZeroVector;
 };
 
 USTRUCT(BlueprintType)
@@ -91,6 +103,18 @@ public:
 
 	void SetKnockbackVector(const FVector& InKnockbackVector) {this->KnockbackVector = InKnockbackVector;}
 	FVector GetKnockbackVector() const {return KnockbackVector;}
+
+	void SetIsRadialDamage(bool bInIsRadialDamage) { bIsRadialDamage = bInIsRadialDamage; }
+	bool IsRadialDamage() const { return bIsRadialDamage; }
+
+	void SetRadialDamageInnerRadius(float InRadialDamageInnerRadius) { RadialDamageInnerRadius = InRadialDamageInnerRadius; }
+	float GetRadialDamageInnerRadius() const { return RadialDamageInnerRadius; }
+
+	void SetRadialDamageOuterRadius(float InRadialDamageOuterRadius) { RadialDamageOuterRadius = InRadialDamageOuterRadius; }
+	float GetRadialDamageOuterRadius() const { return RadialDamageOuterRadius; }
+
+	void SetRadialDamageOrigin(const FVector& InRadialDamageOrigin) { RadialDamageOrigin = InRadialDamageOrigin; }
+	FVector GetRadialDamageOrigin() const { return RadialDamageOrigin; }
 	
 	virtual UScriptStruct* GetScriptStruct() const override {return StaticStruct();}
 	virtual FAuraGameplayEffectContext* Duplicate() const override
@@ -132,6 +156,18 @@ protected:
 
 	UPROPERTY()
 	FVector KnockbackVector = FVector::ZeroVector;
+
+	UPROPERTY()
+	bool bIsRadialDamage = false;
+ 
+	UPROPERTY()
+	float RadialDamageInnerRadius = 0.f;
+ 
+	UPROPERTY()
+	float RadialDamageOuterRadius = 0.f;
+ 
+	UPROPERTY()
+	FVector RadialDamageOrigin = FVector::ZeroVector;
 };
 
 template<>

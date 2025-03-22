@@ -13,6 +13,7 @@ class UAnimMontage;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnAscRegistered, UAbilitySystemComponent*);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeath, AActor*, DeadActor);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnDamageSignature, float /*Damage Amount*/);
 
 USTRUCT(BlueprintType)
 struct FTaggedMontage
@@ -62,6 +63,7 @@ public:
 
 	virtual void Die() = 0;
 	virtual FOnDeath& GetOnDeath() = 0;
+	virtual FOnDamageSignature& GetOnDamageSignature() = 0;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	bool IsDead() const;

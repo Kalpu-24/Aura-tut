@@ -10,6 +10,7 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
 
 struct FAuraDamageStatics
 {
@@ -134,7 +135,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	}
 
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
-
+	FGameplayEffectContextHandle ContextHandle = Spec.GetEffectContext();
 	const FGameplayTagContainer* SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();
 	const FGameplayTagContainer* TargetTags = Spec.CapturedTargetTags.GetAggregatedTags();
 	FAggregatorEvaluateParameters EvaluateParameters;
@@ -160,6 +161,32 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		Resistance = FMath::Clamp<float>(Resistance,0.f, 100.f);
 
 		Damagetype *= (100.f - Resistance) / 100.f;
+
+		if (UAuraAbilitySystemLibrary::IsRadialDamage(ContextHandle))
+		{
+			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(TargetActor))
+			{
+				CombatInterface->GetOnDamageSignature().AddLambda(
+					[&](float DamageAmount)
+					{
+						Damagetype = DamageAmount;
+					}
+				);
+			}
+			UGameplayStatics::ApplyRadialDamageWithFalloff(
+				TargetActor,
+				Damagetype,
+				0.f,
+				UAuraAbilitySystemLibrary::GetRadialDamageOrigin(ContextHandle),
+				UAuraAbilitySystemLibrary::GetRadialDamageInnerRadius(ContextHandle),
+				UAuraAbilitySystemLibrary::GetRadialDamageOuterRadius(ContextHandle),
+				1.f,
+				UDamageType::StaticClass(),
+				TArray<AActor*>(),
+				SourceActor,
+				nullptr);
+		}
+		
 		Damage += Damagetype;
 	}
 	
@@ -171,8 +198,6 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	const bool bBlocked = FMath::RandRange(1, 100) < TargetBlockRate;
 	// If block , halve the Damage
 	Damage = bBlocked? Damage / 2.f : Damage;
-
-	FGameplayEffectContextHandle ContextHandle = Spec.GetEffectContext();
 	UAuraAbilitySystemLibrary::SetIsBlockedHit(ContextHandle, bBlocked);
 
 	// Armor stuff

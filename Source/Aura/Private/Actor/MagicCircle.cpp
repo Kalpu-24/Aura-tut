@@ -8,7 +8,7 @@
 
 AMagicCircle::AMagicCircle()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	MagicCircleDecal = CreateDefaultSubobject<UDecalComponent>(TEXT("MagicCircleDecal"));
 	MagicCircleDecal->SetupAttachment(GetRootComponent());
 }
@@ -18,9 +18,3 @@ void AMagicCircle::BeginPlay()
 	Super::BeginPlay();
 	
 }
-
-void AMagicCircle::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-

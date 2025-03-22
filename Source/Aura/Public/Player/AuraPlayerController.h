@@ -53,6 +53,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SyncOccludedActors();
 	
+	UFUNCTION(BlueprintCallable)
+	void ShowMagicCircle(UMaterialInterface* DecalMaterial = nullptr);
+
+	UFUNCTION(BlueprintCallable)
+	void HideMagicCircle();
+	
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -82,12 +88,6 @@ protected:
  
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Camera Occlusion|Occlusion")
 	bool DebugLineTraces;
-
-	UFUNCTION(BlueprintCallable)
-	void ShowMagicCircle();
-
-	UFUNCTION(BlueprintCallable)
-	void HideMagicCircle();
 
 private:
 	UPROPERTY(EditAnywhere, Category="Input")

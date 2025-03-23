@@ -35,7 +35,7 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void OnHit();
-
+	bool bHit = false;
 	virtual void Destroyed() override;
 
 	UFUNCTION()
@@ -44,7 +44,7 @@ private:
 
 	float lifespan = 15.f;
 
-	bool bHit = false;
+
 	
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USphereComponent> Sphere;

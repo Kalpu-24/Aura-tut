@@ -32,6 +32,8 @@ protected:
 	UFUNCTION()
 	void OnHomingTargetDeath(AActor* DeadActor);
 	virtual void BeginPlay() override;
+
+	UFUNCTION(BlueprintCallable)
 	void OnHit();
 
 	virtual void Destroyed() override;

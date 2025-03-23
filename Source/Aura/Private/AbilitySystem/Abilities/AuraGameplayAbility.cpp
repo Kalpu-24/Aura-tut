@@ -17,7 +17,11 @@ FString UAuraGameplayAbility::GetNextLevelDescription(int32 Level)
  
 FString UAuraGameplayAbility::GetLockedDescription(int32 Level)
 {
-	return FString::Printf(TEXT("<Default>Spell Locked Until Level: %d</>"), Level);
+	if (Level > 1)
+	{
+		return FString::Printf(TEXT("<Default>Spell Locked Until Level: %d</>"), Level);
+	}
+	return FString::Printf(TEXT("Ability Does Not Exist Yet"));
 }
 
 float UAuraGameplayAbility::GetManaCost(int32 Level) const

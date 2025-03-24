@@ -6,5 +6,5 @@
 void UMVVM_LoadSlot::InitializeSlot()
 {
 	//TODO:SEt slot status
-	SetWidgetSwitcherIndex.Broadcast(1);
+	SetWidgetSwitcherIndex.Broadcast(2);
 }

@@ -13,9 +13,9 @@ void UMVVM_LoadScreen::InitializeLoadSlots()
 	LoadSlot_1 = NewObject<UMVVM_LoadSlot>(this, LoadSlotClass);
 	LoadSlot_2 = NewObject<UMVVM_LoadSlot>(this, LoadSlotClass);
 
-	LoadSlot_0->LoadSlotName = TEXT("SaveGame_0");
-	LoadSlot_1->LoadSlotName = TEXT("SaveGame_1");
-	LoadSlot_2->LoadSlotName = TEXT("SaveGame_2");
+	LoadSlot_0->SetLoadSlotName(FString("SaveGame_0")); 
+	LoadSlot_1->SetLoadSlotName(FString("SaveGame_1"));
+	LoadSlot_2->SetLoadSlotName(FString("SaveGame_2"));
 	
 	Mvvm_LoadSlots.Add(0, LoadSlot_0);
 	Mvvm_LoadSlots.Add(1, LoadSlot_1);

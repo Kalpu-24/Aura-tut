@@ -8,3 +8,8 @@ void UMVVM_LoadSlot::InitializeSlot()
 	//TODO:SEt slot status
 	SetWidgetSwitcherIndex.Broadcast(2);
 }
+
+void UMVVM_LoadSlot::SetLoadSlotName(FString NewName)
+{
+	UE_MVVM_SET_PROPERTY_VALUE(LoadSlotName, NewName);
+}

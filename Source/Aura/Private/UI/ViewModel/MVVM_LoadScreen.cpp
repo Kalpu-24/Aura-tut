@@ -31,7 +31,7 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 Slot, const FString& EnteredNa
 {
 	AAuraGameModeBase* GameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this));
 
-	Mvvm_LoadSlots[Slot]->PlayerName = EnteredName;
+	Mvvm_LoadSlots[Slot]->SetPlayerName(EnteredName);
 
 	GameMode->SaveSlotData(Mvvm_LoadSlots[Slot], Slot);
 	Mvvm_LoadSlots[Slot]->InitializeSlot();

@@ -38,6 +38,7 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 Slot, const FString& EnteredNa
 
 	Mvvm_LoadSlots[Slot]->SetMapName(GameMode->DefaultMapName);
 	Mvvm_LoadSlots[Slot]->SetPlayerName(EnteredName);
+	Mvvm_LoadSlots[Slot]->SetPlayerLevel(1);
 	Mvvm_LoadSlots[Slot]->SlotStatus = Taken;
 	Mvvm_LoadSlots[Slot]->PlayerStartTag = GameMode->DefaultPlayerStartTag;
 	GameMode->SaveSlotData(Mvvm_LoadSlots[Slot], Slot);
@@ -111,5 +112,6 @@ void UMVVM_LoadScreen::LoadData()
 		LoadSlot.Value->SetMapName(SaveObject->MapName);
 		LoadSlot.Value->InitializeSlot();
 		LoadSlot.Value->PlayerStartTag = SaveObject->PlayerStartTag;
+		LoadSlot.Value->SetPlayerLevel(SaveObject->PlayerLevel);
 	}
 }

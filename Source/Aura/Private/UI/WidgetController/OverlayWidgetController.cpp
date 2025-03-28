@@ -23,9 +23,9 @@ void UOverlayWidgetController::BindLambdasToDependencies()
 {
 	GetAuraPS()->OnXpChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
 	GetAuraPS()->OnLevelChangedDelegate.AddLambda(
-		[this](int32 NewLevel)
+		[this](int32 NewLevel, bool bLevelUp)
 		{
-			OnPlayerLevelChangeDelegate.Broadcast(NewLevel);
+			OnPlayerLevelChangeDelegate.Broadcast(NewLevel, bLevelUp);
 		}
 	);
 	

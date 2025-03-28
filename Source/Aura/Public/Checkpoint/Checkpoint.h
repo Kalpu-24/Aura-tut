@@ -1,0 +1,38 @@
+﻿// Copyright 2025 Kalp Games, All rights reserved.
+
+#pragma once
+ 
+#include "CoreMinimal.h"
+#include "GameFramework/PlayerStart.h"
+#include "Checkpoint.generated.h"
+ 
+class USphereComponent;
+/**
+ * 
+ */
+UCLASS()
+class AURA_API ACheckpoint : public APlayerStart
+{
+	GENERATED_BODY()
+
+public:
+	ACheckpoint(const FObjectInitializer& ObjectInitializer);
+
+protected:
+	UFUNCTION()
+	virtual void OnSphereOverlap(UPrimitiveComponent* OverlapedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	virtual void BeginPlay() override;
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void CheckpointReached(UMaterialInstanceDynamic* DynamicMaterialInstance);\
+ 
+	void HandleGlowEffects();
+
+private:
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UStaticMeshComponent> CheckpointMesh;
+
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<USphereComponent> Sphere;
+};

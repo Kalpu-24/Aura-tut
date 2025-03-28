@@ -40,3 +40,9 @@ ULoadScreenSaveGame* AAuraGameModeBase::GetSaveSlotData(const FString& SlotName,
 	ULoadScreenSaveGame* LoadScreenSaveGame = Cast<ULoadScreenSaveGame>(SaveGameObject);
 	return LoadScreenSaveGame;
 }
+
+void AAuraGameModeBase::BeginPlay()
+{
+	Super::BeginPlay();
+	Maps.Add(DefaultMapName, DefaultMap);
+}

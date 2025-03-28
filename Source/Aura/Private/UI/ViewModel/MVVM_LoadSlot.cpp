@@ -18,3 +18,8 @@ void UMVVM_LoadSlot::SetPlayerName(FString NewName)
 {
 	UE_MVVM_SET_PROPERTY_VALUE(PlayerName, NewName);
 }
+
+void UMVVM_LoadSlot::SetMapName(FString InMapName)
+{
+	UE_MVVM_SET_PROPERTY_VALUE(MapName, InMapName);
+}

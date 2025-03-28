@@ -19,6 +19,7 @@ class AURA_API AAuraCharacter : public AAuraCharacterBase, public IPlayerInterfa
 	GENERATED_BODY()
 public:
     AAuraCharacter();
+	void LoadProgress();
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
 

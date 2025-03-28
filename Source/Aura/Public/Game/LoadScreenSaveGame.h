@@ -65,4 +65,7 @@ public:
  
 	UPROPERTY()
 	float Vigor = 0;
+	
+	UPROPERTY()
+	bool bFirstTimeLoadIn = true;
 };

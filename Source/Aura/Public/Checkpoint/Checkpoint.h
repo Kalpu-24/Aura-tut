@@ -34,14 +34,14 @@ protected:
 	virtual void BeginPlay() override;
 	
 	UFUNCTION(BlueprintImplementableEvent)
-	void CheckpointReached(UMaterialInstanceDynamic* DynamicMaterialInstance);\
+	void CheckpointReached(UMaterialInstanceDynamic* DynamicMaterialInstance);
  
 	void HandleGlowEffects();
-
-private:
-	UPROPERTY(EditAnywhere)
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UStaticMeshComponent> CheckpointMesh;
 
+private:
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<USphereComponent> Sphere;
 };

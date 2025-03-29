@@ -61,6 +61,11 @@ void AAuraCharacter::LoadProgress()
 		}
 		else
 		{
+			if (UAuraAbilitySystemComponent* AuraAsc = Cast<UAuraAbilitySystemComponent>(GetAbilitySystemComponent()))
+			{
+				AuraAsc->AddCharacterAbilitiesFromSaveData(SaveData);
+			}
+			
 			if (AAuraPlayerState* AuraPlayerState = Cast<AAuraPlayerState>(GetPlayerState()))
 			{
 				AuraPlayerState->SetLevel(SaveData->PlayerLevel);
@@ -207,6 +212,7 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
 
 		if (!HasAuthority()) return;
 		FForEachAbility SaveAbilityDelegate;
+		SaveData->SavedAbilities.Empty();
 		SaveAbilityDelegate.BindLambda(
 			[this, SaveData](const FGameplayAbilitySpec& AbilitySpec)
 			{
@@ -222,7 +228,7 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
 				SavedAbility.AbilitySlot = UAuraAbilitySystemComponent::GetInputTagFromAbilitySpec(AbilitySpec);
 				SavedAbility.AbilityType = Info.AbilityType;
 
-				SaveData->SavedAbilities.Add(SavedAbility);
+				SaveData->SavedAbilities.AddUnique(SavedAbility);
 			}
 		);
 		UAuraAbilitySystemComponent* AuraAsc = Cast<UAuraAbilitySystemComponent>(GetAbilitySystemComponent());

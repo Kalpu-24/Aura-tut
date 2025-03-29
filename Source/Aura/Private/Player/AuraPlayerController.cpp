@@ -129,8 +129,9 @@ void AAuraPlayerController::CursorTrace()
 {
 	if (GetAsc() && GetAsc()->HasMatchingGameplayTag(TAG_Player_Block_CursorTrace))
 	{
-		if (LastActor) LastActor->UnHighlightActor();
-		if (ThisActor) ThisActor->UnHighlightActor();
+		UnHighlightActor(LastActor);
+		UnHighlightActor(ThisActor);
+		if (IsValid(ThisActor) && ThisActor->Implements<UHighlightInterface>())
 		LastActor = ThisActor = nullptr;
 		return;
 	}
@@ -138,7 +139,14 @@ void AAuraPlayerController::CursorTrace()
 	if (!CursorHit.bBlockingHit) return;
 
 	LastActor = ThisActor;
-	ThisActor = CursorHit.GetActor();
+	if (IsValid(CursorHit.GetActor()) && CursorHit.GetActor()->Implements<UHighlightInterface>())
+	{
+		ThisActor = CursorHit.GetActor();
+	}
+	else
+	{
+		ThisActor = nullptr;
+	}
 
 	/**
 	 * Line trace from cursor. There are several scenarios:
@@ -155,8 +163,8 @@ void AAuraPlayerController::CursorTrace()
 	 */
 	if (LastActor != ThisActor)
 	{
-		if (LastActor) LastActor->UnHighlightActor();
-		if (ThisActor) ThisActor->HighlightActor();
+		UnHighlightActor(LastActor);
+		HighlightActor(ThisActor);
 	}
 }
 
@@ -165,8 +173,15 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 	if (GetAsc() && GetAsc()->HasMatchingGameplayTag(TAG_Player_Block_InputPressed)) return;
 	if (InputTag.MatchesTagExact(TAG_InputTag_LMB))
 	{
-		bTargeting = ThisActor ? true : false;
-		bAutoRunning = false;
+		if (IsValid(ThisActor))
+		{
+			TargetingStatus = ThisActor->Implements<UTargetInterface>() ? ETargetingStatus::TargetingEnemy : ETargetingStatus::TargetingNonEnemy;
+			bAutoRunning = false;
+		}
+		else
+		{
+			TargetingStatus = ETargetingStatus::NotTargeting;
+		}
 	}
 	if (GetAsc()) GetAsc()->AbilityInputTagPressed(InputTag);
 }
@@ -182,7 +197,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 
 	if (GetAsc()) GetAsc()->AbilityInputTagReleased(InputTag);
 	
-	if (!bTargeting && !bIsShiftKeyDown)
+	if (TargetingStatus != ETargetingStatus::TargetingEnemy && !bIsShiftKeyDown)
 	{
 		if (const APawn* ControlledPawn = GetPawn(); FollowTime <= ShortPressThreshold && ControlledPawn)
 		{
@@ -203,7 +218,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 				UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystrem, CachedDestination);
 			}
 		}
-		bTargeting = false;
+		TargetingStatus = ETargetingStatus::NotTargeting;
 		FollowTime = 0.f;
 	}
 }
@@ -217,7 +232,7 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		return;
 	}
 
-	if (bTargeting || bIsShiftKeyDown)
+	if (TargetingStatus == ETargetingStatus::TargetingEnemy || bIsShiftKeyDown)
 	{
 		if (GetAsc()) GetAsc()->AbilityInputTagHeld(InputTag);
 	}
@@ -238,6 +253,22 @@ UAuraAbilitySystemComponent* AAuraPlayerController::GetAsc()
 	if (AbilitySystemComponent == nullptr) AbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(
 		UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn()));
 	return AbilitySystemComponent;
+}
+
+void AAuraPlayerController::HighlightActor(AActor* InActor)
+{
+	if (IsValid(InActor) && InActor->Implements<UHighlightInterface>())
+	{
+		IHighlightInterface::Execute_HighlightActor(InActor);
+	}
+}
+ 
+void AAuraPlayerController::UnHighlightActor(AActor* InActor)
+{
+	if (IsValid(InActor) && InActor->Implements<UHighlightInterface>())
+	{
+		IHighlightInterface::Execute_UnHighlightActor(InActor);
+	}
 }
 
 void AAuraPlayerController::AutoRun()

@@ -1,3 +1,27 @@
 ﻿// Copyright 2025 Kalp Games, All rights reserved.
 
 #include "Game/LoadScreenSaveGame.h"
+
+FSavedMap ULoadScreenSaveGame::GetSavedMapWithMapName(const FString& InMapName)
+{
+	for (const FSavedMap& Map : SavedMaps)
+	{
+		if (Map.MapAssetName == InMapName)
+		{
+			return Map;
+		}
+	}
+	return FSavedMap();
+}
+ 
+bool ULoadScreenSaveGame::HasMap(const FString& InMapName)
+{
+	for (const auto& [MapAssetName, SavedActors] : SavedMaps)
+	{
+		if (MapAssetName == InMapName)
+		{
+			return true;
+		}
+	}
+	return false;
+}

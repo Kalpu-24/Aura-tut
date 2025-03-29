@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "GameFramework/PlayerController.h"
+#include "Interaction/HighlightInterface.h"
 #include "AuraPlayerController.generated.h"
 
 class AMagicCircle;
@@ -107,8 +108,8 @@ private:
 
 	void CursorTrace();
 
-	TScriptInterface<ITargetInterface> LastActor;
-	TScriptInterface<ITargetInterface> ThisActor;
+	TScriptInterface<IHighlightInterface> LastActor;
+	TScriptInterface<IHighlightInterface> ThisActor;
 	FHitResult CursorHit;
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
@@ -158,6 +159,7 @@ private:
 	bool OnHideOccludedActor(const FCameraOccludedActor& OccludedActor) const;
 	void ShowOccludedActor(FCameraOccludedActor& OccludedActor);
 	static bool OnShowOccludedActor(const FCameraOccludedActor& OccludedActor);
+	// ReSharper disable once CppFunctionIsNotImplemented
 	void HandleCollision(TArray<FHitResult> OutHits);
 	void ForceShowOccludedActors();
  

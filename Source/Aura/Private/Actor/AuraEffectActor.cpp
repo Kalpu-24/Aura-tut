@@ -9,6 +9,11 @@
 AAuraEffectActor::AAuraEffectActor(){
 	PrimaryActorTick.bCanEverTick = false;
 	SetRootComponent(CreateDefaultSubobject<USceneComponent>("SceneRoot"));
+	RotatingMovementComponent = CreateDefaultSubobject<URotatingMovementComponent>(TEXT("RotatingMovementComponent"));
+	RotatingMovementComponent->RotationRate = FRotator(0.f, 45.f, 0.f);
+	RotatingMovementComponent->bRotationInLocalSpace = true;
+	RotatingMovementComponent->bAutoActivate = true;
+	RotatingMovementComponent->SetUpdatedComponent(GetRootComponent());
 }
 
 void AAuraEffectActor::BeginPlay(){

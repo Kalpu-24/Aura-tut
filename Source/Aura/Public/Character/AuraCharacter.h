@@ -24,7 +24,7 @@ public:
 	virtual void OnRep_PlayerState() override;
 
 	virtual int32 GetPlayerLevel_Implementation() override;
-
+	virtual void Die() override;
 	virtual void AddToXP_Implementation(int32 XP) override;
 	virtual void LevelUp_Implementation() override;
 	virtual int32 GetXP_Implementation() const override;
@@ -39,6 +39,11 @@ public:
 	virtual void ShowMagicCircle_Implementation(UMaterialInterface* DecalMaterial = nullptr) override;
 	virtual void HideMagicCircle_Implementation() override;
 	virtual void SaveProgress_Implementation(const FName& CheckpointTag) override;
+
+	UPROPERTY(EditDefaultsOnly)
+	float DeathTime = 5.f;
+ 
+	FTimerHandle DeathTimer;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UNiagaraComponent> LevelUpNiagaraComponent;

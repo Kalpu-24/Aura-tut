@@ -33,6 +33,9 @@ public:
 	TEnumAsByte<ESaveSlotStatus> SlotStatus;
 
 	UPROPERTY()
+	FString MapAssetName;
+
+	UPROPERTY()
 	FName PlayerStartTag;
 
 	void SetLoadSlotName(FString NewName);

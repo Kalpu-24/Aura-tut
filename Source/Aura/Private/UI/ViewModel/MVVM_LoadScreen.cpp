@@ -45,6 +45,7 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 Slot, const FString& EnteredNa
 	Mvvm_LoadSlots[Slot]->SetPlayerLevel(1);
 	Mvvm_LoadSlots[Slot]->SlotStatus = Taken;
 	Mvvm_LoadSlots[Slot]->PlayerStartTag = GameMode->DefaultPlayerStartTag;
+	Mvvm_LoadSlots[Slot]->MapAssetName = GameMode->DefaultMap.ToSoftObjectPath().GetAssetName();
 	GameMode->SaveSlotData(Mvvm_LoadSlots[Slot], Slot);
 	Mvvm_LoadSlots[Slot]->InitializeSlot();
 

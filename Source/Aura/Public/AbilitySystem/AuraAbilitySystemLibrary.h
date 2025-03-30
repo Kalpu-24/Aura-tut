@@ -7,9 +7,11 @@
 #include "GameplayTagContainer.h"
 #include "Data/AbilityInfo.h"
 #include "Data/CharacterClassInfo.h"
+#include "Data/LootTiers.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "AuraAbilitySystemLibrary.generated.h"
 
+class ULoadScreenSaveGame;
 class AAuraHUD;
 struct FWidgetControllerParams;
 class USpellMenuWidgetController;
@@ -57,6 +59,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="AuraABilitySystem|CharacterClassDefaults")
 	static UAbilityInfo* GetAbilityInfo(const UObject* WorldObject);
+
+	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|CharacterClassDefaults", meta = (DefaultToSelf = "WorldContextObject"))
+	static ULootTiers* GetLootTiers(const UObject* WorldContextObject);
 
 	/*
   * Effect Context Getters

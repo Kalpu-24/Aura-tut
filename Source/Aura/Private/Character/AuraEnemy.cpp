@@ -144,6 +144,7 @@ void AAuraEnemy::Die()
 {
 	AuraAIController->GetBrainComponent()->StopLogic(TEXT("Died"));
 	SetLifeSpan(LifeSpan);
+	SpawnLoot();
 	Super::Die();
 }
 

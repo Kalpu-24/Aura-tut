@@ -42,6 +42,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	URotatingMovementComponent* RotatingMovementComponent;
 
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<USoundBase> PickupSoundComponent;
+
 	UFUNCTION(BlueprintCallable)
 	void ApplyEffectToTarget(AActor* TargetActor, const TSubclassOf<UGameplayEffect>& GameplayEffectClass);
 

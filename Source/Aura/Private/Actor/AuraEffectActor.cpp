@@ -4,6 +4,7 @@
 #include "Actor/AuraEffectActor.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AAuraEffectActor::AAuraEffectActor(){
@@ -26,6 +27,7 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, const TSubclassO
 	UAbilitySystemComponent* TargetAsc = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 	if (TargetAsc == nullptr) return;
 
+	UGameplayStatics::PlaySoundAtLocation(this, PickupSoundComponent, GetActorLocation());
 	check(GameplayEffectClass);
 	FGameplayEffectContextHandle EffectContextHandle = TargetAsc->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);

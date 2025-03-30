@@ -76,7 +76,7 @@ public:
 	UFUNCTION()
 	virtual void OnRep_Burn();
 
-	
+	void SetCharacterClass(ECharacterClass InClass) { CharacterClass = InClass; }
 	
 protected:
 	virtual void BeginPlay() override;

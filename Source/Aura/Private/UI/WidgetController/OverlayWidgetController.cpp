@@ -64,7 +64,7 @@ void UOverlayWidgetController::BindLambdasToDependencies()
 		GetAuraASC()->AbilityCommittedCallbacks.AddLambda(
 			[this](UGameplayAbility* Ability)
 			{
-				OnAbilityCommited.Broadcast(Ability->GetCurrentAbilitySpec()->Ability->AbilityTags.First(), Ability->GetCooldownTimeRemaining());
+				OnAbilityCommited.Broadcast(Ability->GetCurrentAbilitySpec()->Ability->GetAssetTags().First(), Ability->GetCooldownTimeRemaining());
 			}
 		);
 		

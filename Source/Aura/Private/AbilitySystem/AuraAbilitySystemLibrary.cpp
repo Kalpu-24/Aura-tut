@@ -8,6 +8,7 @@
 #include "AuraAbilitySystemTypes.h"
 #include "AuraGameplayTags.h"
 #include "GameplayTagsManager.h"
+#include "Engine/OverlapResult.h"
 #include "Game/AuraGameModeBase.h"
 #include "Game/LoadScreenSaveGame.h"
 #include "HUD/AuraHUD.h"
@@ -121,7 +122,7 @@ void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldObject,
 	UCharacterClassInfo* ClassInfo = GetCharacterClassInfo(WorldObject);
 	if (ClassInfo == nullptr) return;
 	
-	for (const TSubclassOf CommonAbility : ClassInfo->CommonAbilities)
+	for (const TSubclassOf<UGameplayAbility>& CommonAbility : ClassInfo->CommonAbilities)
 	{
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(CommonAbility, 1);
 		Asc->GiveAbility(AbilitySpec);

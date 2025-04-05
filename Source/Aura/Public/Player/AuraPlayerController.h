@@ -176,7 +176,7 @@ private:
 	void HandleCollision(TArray<FHitResult> OutHits);
 	void ForceShowOccludedActors();
  
-	__forceinline bool ShouldCheckCameraOcclusion() const
+	FORCEINLINE bool ShouldCheckCameraOcclusion() const
 	{
 		return IsOcclusionEnabled && FadeMaterial && ActiveCamera && ActiveCapsuleComponent;
 	}

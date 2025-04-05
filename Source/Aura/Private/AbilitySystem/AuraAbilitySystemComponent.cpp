@@ -47,7 +47,7 @@ void UAuraAbilitySystemComponent::AddCharacterAbilitiesFromSaveData(ULoadScreenS
 
 void UAuraAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities)
 {
-	for (const TSubclassOf AbilityClass : StartupAbilities)
+	for (const TSubclassOf<UGameplayAbility>& AbilityClass : StartupAbilities)
 	{
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
 		if (const UAuraGameplayAbility* AuraGameplayAbility = CastChecked<UAuraGameplayAbility>(AbilitySpec.Ability))
@@ -64,7 +64,7 @@ void UAuraAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf
 void UAuraAbilitySystemComponent::AddCharacterPassiveAbilities(
 	const TArray<TSubclassOf<UGameplayAbility>>& StartupPassiveAbilities)
 {
-	for (const TSubclassOf AbilityClass : StartupPassiveAbilities)
+	for (const TSubclassOf<UGameplayAbility>& AbilityClass : StartupPassiveAbilities)
 	{
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
 		AbilitySpec.GetDynamicSpecSourceTags().AddTag(TAG_Abilities_Status_Equipped);
